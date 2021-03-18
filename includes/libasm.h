@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:19:59 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/18 22:37:03 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/19 00:00:34 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 
 # define BUFFER_SIZE 1024
 
-ssize_t	ft_write(int fildes, const void *buf, size_t nbyte);
+size_t ft_strlen(const char *s);
 ssize_t ft_read(int fildes, void *buf, size_t nbyte);
+ssize_t	ft_write(int fildes, const void *buf, size_t nbyte);
 
 #endif
