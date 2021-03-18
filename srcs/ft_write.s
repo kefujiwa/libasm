@@ -31,12 +31,10 @@ _ft_write:
 	je		_error_fd		; jump to _error_fd if ZF == 1
 
 	mov		rsi, r8			; restore second parameter in rsi
-	mov		rdx, 1			; setting 1 to the third parameter
-	mov		rax, 0x2000004	; 0x2000000 (MacOS ?) + 0x4 (write syscall)
-	syscall					; int 0x80
-	cmp		rax, 14			; check if write returned 14 (errno 14:EFAULT)
+	cmp		rsi, 0x0		; check if the second parameter is NULL pointer
 	je		_error_addr		; jump to _error_addr if ZF == 1
 
+	mov		rsi, r8			; restore second parameter in rsi
 	mov		rdx, r9			; restore third parameter in rdx
 	mov		rax, 0x2000004	; 0x2000000 (MacOS ?) + 0x4 (write syscall)
 	syscall					; int 0x80
