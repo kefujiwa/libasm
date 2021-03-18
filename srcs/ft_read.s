@@ -39,6 +39,7 @@ _ft_read:
 	mov		rax, 0x2000003	; 0x2000000 (MacOS ?) + 0x3 (read syscall)
 	syscall					; write(rdi, rsi, rdx)
 
+_return:
 	pop		r8				; restore data of r8
 	pop		r9				; restore data of r9
 	ret
@@ -47,21 +48,17 @@ _ft_read:
 _error_fd:
 	call	___error		; return ptr of variable errno
 	mov		byte [rax], 9	; assign 9:EBADF to errno
-	jmp		_failure
+	mov		rax, -1			; return value -1
+	jmp		_return
 
 _error_addr:
 	call	___error		; return ptr of variable errno
 	mov		byte [rax], 14	; assign 14:EFAULT to errno
-	jmp		_failure
+	mov		rax, -1			; return value -1
+	jmp		_return
 
 _error_args:
 	call	___error		; return ptr of variable errno
-	mov		byte [rax], 22	;
-	jmp		_failure
-
-
-_failure:
-	mov		rax, -1			; return -1
-	pop		r8
-	pop		r9
-	ret
+	mov		byte [rax], 22	; assign 22:EINVAL
+	mov		rax, -1			; return value -1
+	jmp		_return
