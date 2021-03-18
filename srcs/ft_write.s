@@ -41,36 +41,27 @@ _ft_write:
 	cmp		rax, 22			; check if write returned 22 (errno 22:EINVAL)
 	je		_error_args		; jump to _success if ZF == 0
 
+_return:
 	pop		r8				; restore data of r8
 	pop		r9				; restore data of r9
 	ret
 
-
 _error_fd:
 	call	___error		; return ptr of variable errno
 	mov		byte [rax], 9	; assign 9:EBADF to errno
-	jmp		_failure
+	mov		rax, -1			; return value -1
+	jmp		_return
 
 _error_addr:
 	call	___error		; return ptr of variable errno
 	mov		byte [rax], 14	; assign 14:EFAULT to errno
-	jmp		_failure
+	mov		rax, -1			; return value -1
+	jmp		_return
 
 _error_args:
 	cmp		rdx, 22			; check if third parameter is 22
-	je		_success		; jump to _success if ZF == 1
+	je		_return			; jump to _return if ZF == 1
 	call	___error		; return ptr of variable errno
 	mov		byte [rax], 22	; assign 22:EINVAL to errno
-	jmp		_failure
-
-
-_failure:
-	mov		rax, -1			; return -1
-	pop		r8
-	pop		r9
-	ret
-
-_success:
-	pop		r8
-	pop		r9
-	ret
+	mov		rax, -1			; return value -1
+	jmp		_return
