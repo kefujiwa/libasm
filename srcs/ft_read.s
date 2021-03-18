@@ -33,7 +33,7 @@ _ft_read:
 	je		_error_addr		; jump to _error_addr if ZF == 1
 
 	mov		rdx, r9			; restore third parameter in rdx
-	cmp		rdx, 0			; check if third parameter is negative
+	cmp		rdx, 0			; check if the third parameter is negative
 	js		_error_args		; jump to _error_args if SF == 1
 
 	mov		rax, 0x2000003	; 0x2000000 (MacOS ?) + 0x3 (read syscall)
