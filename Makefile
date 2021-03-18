@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/18 21:56:15 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/18 21:58:32 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,8 @@ OBJS_DIR			= objs/srcs/
 TEST_DIR			= test/
 
 # Files #
-SRCS				= ft_write.s
+SRCS				= ft_write.s \
+					  ft_read.s
 T_SRC				= main.c
 
 # Compiled Files #
