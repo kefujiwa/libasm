@@ -21,5 +21,5 @@ _ft_strlen:
 _loop:
 	inc		rax						; increment counter
 	cmp		byte [rdi + rax], 0x0	; check if value of ptr [rdi + rax] is null character
-	jne		_loop
+	jne		_loop					; jump to _loop if ZF == 0
 	ret
