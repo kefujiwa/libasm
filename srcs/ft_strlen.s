@@ -16,10 +16,13 @@ global _ft_strlen
 
 section .text
 _ft_strlen:
-	mov		rax, -1					; initialize counter to -1
+	mov		rax, 0					; initialize counter to 0
 
 _loop:
-	inc		rax						; increment counter
 	cmp		byte [rdi + rax], 0x0	; check if value of ptr [rdi + rax] is null character
+	je		_return					; jump to _return if ZF == 1
+	inc		rax						; increment counter
 	jne		_loop					; jump to _loop if ZF == 0
+
+_return:
 	ret
