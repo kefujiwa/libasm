@@ -26,7 +26,7 @@ _ft_write:
 	mov		r9, rdx			; store data of third parameter in r9 before fstat
 	mov		rsi, 0x0		; setting NULL pointer to the second parameter before fstat
 	mov		rax, 0x20000BD	; 0x2000000 (MacOS ?) + 0xBD (fstat syscall)
-	syscall					; 0x80
+	syscall					; fstat(rdi, rsi)
 	cmp		rax, 9			; check if fstat returned 9 (errno 9:EBADF)
 	je		_error_fd		; jump to _error_fd if ZF == 1
 
@@ -37,7 +37,7 @@ _ft_write:
 	mov		rsi, r8			; restore second parameter in rsi
 	mov		rdx, r9			; restore third parameter in rdx
 	mov		rax, 0x2000004	; 0x2000000 (MacOS ?) + 0x4 (write syscall)
-	syscall					; int 0x80
+	syscall					; write(rdi, rsi, rdx)
 	cmp		rax, 22			; check if write returned 22 (errno 22:EINVAL)
 	je		_error_args		; jump to _success if ZF == 0
 
