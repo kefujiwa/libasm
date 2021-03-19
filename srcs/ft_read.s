@@ -47,19 +47,19 @@ _return:
 
 
 _error_fd:
-	call	___error		; return ptr of variable errno
+	call	___error		; store ptr of variable errno to rax
 	mov		byte [rax], 9	; assign 9:EBADF to errno
 	mov		rax, -1			; return value -1
 	jmp		_return
 
 _error_addr:
-	call	___error		; return ptr of variable errno
+	call	___error		; store ptr of variable errno to rax
 	mov		byte [rax], 14	; assign 14:EFAULT to errno
 	mov		rax, -1			; return value -1
 	jmp		_return
 
 _error_args:
-	call	___error		; return ptr of variable errno
+	call	___error		; store ptr of variable errno to rax
 	mov		byte [rax], 22	; assign 22:EINVAL
 	mov		rax, -1			; return value -1
 	jmp		_return

@@ -48,13 +48,13 @@ _return:
 	ret
 
 _error_fd:
-	call	___error		; return ptr of variable errno
+	call	___error		; store ptr of variable errno to rax
 	mov		byte [rax], 9	; assign 9:EBADF to errno
 	mov		rax, -1			; return value -1
 	jmp		_return
 
 _error_addr:
-	call	___error		; return ptr of variable errno
+	call	___error		; store ptr of variable errno to rax
 	mov		byte [rax], 14	; assign 14:EFAULT to errno
 	mov		rax, -1			; return value -1
 	jmp		_return
@@ -62,7 +62,7 @@ _error_addr:
 _error_args:
 	cmp		rdx, 22			; check if third parameter is 22
 	je		_return			; jump to _return if ZF == 1
-	call	___error		; return ptr of variable errno
+	call	___error		; store ptr of variable errno to rax
 	mov		byte [rax], 22	; assign 22:EINVAL to errno
 	mov		rax, -1			; return value -1
 	jmp		_return
