@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 10:56:18 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 17:15:47 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/19 23:14:09 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ static void    write_test_err(int fd, char *str, int len)
 	int err[2];
 
 	printf("-----write(%d, \"%s\", %d)-----\n", fd, str, len);
+	errno = 0;
 	ret[0] = write(fd, str, len);
 	err[0] = errno;
+	errno = 0;
 	ret[1] = ft_write(fd, str, len);
 	err[1] = errno;
 	if (ret[0] == ret[1] && err[0] == err[1])

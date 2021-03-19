@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:16:01 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 17:31:32 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/19 23:12:32 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	strlen_test(char *str)
 	printf("-----strlen(%s)-----\n", str);
 	ret[0] = strlen(str);
 	err[0] = errno;
+	errno = 0;
 	ret[1] = ft_strlen(str);
 	err[1] = errno;
 	if (ret[0] == ret[1])

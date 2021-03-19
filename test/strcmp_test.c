@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:19:27 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 17:31:48 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/19 23:12:41 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	strcmp_test(char *s1, char *s2)
 	printf("-----strcmp(%s, %s)-----\n", s1, s2);
 	ret[0] = strcmp(s1, s2);
 	err[0] = errno;
+	errno = 0;
 	ret[1] = ft_strcmp(s1, s2);
 	err[1] = errno;
 	if (ret[0] == ret[1])

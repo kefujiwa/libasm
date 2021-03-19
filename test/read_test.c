@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:11:58 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 17:15:27 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/19 23:10:58 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ static void	read_test_err(int fd, char *buf, int size)
 	if (!fd)
 		fd = open("./Makefile", O_RDONLY);
 	printf("-----read(%d, %s, %d)-----\n", fd, buf, size);
+	errno = 0;
 	ret[0] = read(fd, tmp, size);
 	err[0] = errno;
+	errno = 0;
 	ret[1] = ft_read(fd, tmp, size);
 	err[1] = errno;
 	if (ret[0] == ret[1] && err[0] == err[1])
