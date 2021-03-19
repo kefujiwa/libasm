@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/19 17:26:21 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/19 19:48:12 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ TEST_DIR			= test/
 
 # Files #
 SRCS				= ft_strcmp.s \
+					  ft_strcpy.s \
 					  ft_strlen.s \
 					  ft_read.s \
 					  ft_write.s
