@@ -73,6 +73,7 @@ SRCS				= ft_strcmp.s \
 
 TESTS				= main.c \
 					  strcmp_test.c \
+					  strcpy_test.c \
 					  strlen_test.c \
 					  read_test.c \
 					  write_test.c
@@ -98,7 +99,7 @@ clean:
 
 fclean:				clean
 					@echo "$(_RED)Deleting library '$(NAME)'...\n$(_END)"
-					@$(RM) $(NAME)
+					@$(RM) $(NAME) *.dSYM
 
 re:					fclean all
 

@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 16:52:00 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 17:15:05 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/19 19:51:27 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ void	read_tests(void);
 void	strcmp_tests(void);
 void	strlen_tests(void);
 void	write_tests(void);
+void	strcpy_tests(void);
 
 #endif
