@@ -1,31 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libasm.h                                           :+:      :+:    :+:   */
+/*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/18 18:19:59 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 17:28:56 by kefujiwa         ###   ########.fr       */
+/*   Created: 2021/03/19 16:52:00 by kefujiwa          #+#    #+#             */
+/*   Updated: 2021/03/19 17:15:05 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBASM_H
-# define LIBASM_H
+#ifndef TEST_H
+# define TEST_H
+
+/*
+** SELF-MADE HEADER FILES
+*/
+# include "libasm.h"
 
 /*
 ** EXTERNAL LIBRARIES
 */
-# include <errno.h>
+# include <fcntl.h>
+# include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
+
+/*
+** MACRO DECLARATION (COLORS)
+*/
+# define RESET	"\033[0m"
+# define RED	"\033[31m"
+# define GREEN	"\033[32m"
+
+/*
+** MACRO DECLARATION (BUFFER_SIZE)
+*/
+# define BUFFER_SIZE 1024
 
 /*
 ** PROTOTYPE DECLARATION
 */
-int		ft_strcmp(const char *s1, const char *s2);
-size_t	ft_strlen(const char *s);
-ssize_t	ft_read(int fildes, void *buf, size_t nbyte);
-ssize_t	ft_write(int fildes, const void *buf, size_t nbyte);
+void	read_tests(void);
+void	strcmp_tests(void);
+void	strlen_tests(void);
+void	write_tests(void);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/18 23:59:33 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/19 17:26:21 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,10 +65,17 @@ OBJS_DIR			= objs/srcs/
 TEST_DIR			= test/
 
 # Files #
-SRCS				= ft_write.s \
+SRCS				= ft_strcmp.s \
+					  ft_strlen.s \
 					  ft_read.s \
-					  ft_strlen.s
-T_SRC				= main.c
+					  ft_write.s
+
+TESTS				= main.c \
+					  strcmp_test.c \
+					  strlen_test.c \
+					  read_test.c \
+					  write_test.c
+T_SRCS				= $(addprefix $(TEST_DIR), $(TESTS))
 
 # Compiled Files #
 OBJS				= $(SRCS:%.s=$(OBJS_DIR)%.o)
@@ -95,9 +102,10 @@ fclean:				clean
 re:					fclean all
 
 test:				re $(NAME)
-					@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(TEST_DIR)$(T_SRC) -o $(EXEC)
+					@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(T_SRCS) -o $(EXEC)
 					@./$(EXEC)
 					@$(RM) $(EXEC)
+					@$(RM) $(TEST_DIR)*.txt
 
 # Variables Rules #
 $(NAME):			$(OBJS)
