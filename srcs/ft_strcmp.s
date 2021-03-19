@@ -11,6 +11,7 @@
 ; **************************************************************************** ;
 
 ; nasm -f macho64 ft_strcmp.s && gcc -o exec main.c ft_strcmp.o && ./exec
+; int ft_strcmp(const char *s1, const char *s2)
 
 global _ft_strcmp
 
@@ -22,10 +23,10 @@ _ft_strcmp:
 
 _loop:
 	inc		rcx						; increment counter
-	mov		al, byte [rdi + rcx]	; copy value of [rdi + rcx] to al (8bit register)
-	cmp		al, byte [rsi + rcx]	; check if [rdi + rcx] == [rsi + rcx]
+	mov		al, byte [rdi + rcx]	; copy value of s1[cnt] to al (8bit register)
+	cmp		al, byte [rsi + rcx]	; check if s1[cnt] == s2[cnt]
 	jne		_not_equal				; jump to _not_equal if ZF == 0
-	cmp		al, 0x0					; when _is_equal, check if [rdi + rcx] is null character
+	cmp		al, 0x0					; when _is_equal, check if s1[cnt] is null character
 	jne		_loop					; jump to _loop if ZF == 0
 
 _return:
@@ -33,6 +34,6 @@ _return:
 	ret
 
 _not_equal:
-	sub		al, byte [rsi + rcx]	; subtract [rdi + rcx] from [rsi + rcx] and store it to al
-	movsx	rax, al					; extend 8 bit register al to 64 bit register rax (sign-extension)
+	sub		al, byte [rsi + rcx]	; subtract s1[cnt] from s2[cnt] and store it to al
+	movsx	rax, al					; extend 8 bit register al to 64 bit register rax (sign-extension) and return
 	jmp		_return

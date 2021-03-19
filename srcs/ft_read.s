@@ -11,6 +11,7 @@
 ; **************************************************************************** ;
 
 ; nasm -f macho64 ft_read.s && gcc -o exec main.c ft_read.s && ./exec
+; ssize_t ft_read(int fildes, void *buf, size_t nbyte);
 
 global _ft_read
 extern ___error

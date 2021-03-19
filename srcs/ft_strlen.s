@@ -11,6 +11,7 @@
 ; **************************************************************************** ;
 
 ; nasm -f macho64 ft_strlen.s && gcc -o exec main.c ft_strlen.o && ./exec
+; size_t ft_strlen(const char *s)
 
 global _ft_strlen
 

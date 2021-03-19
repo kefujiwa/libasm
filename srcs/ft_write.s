@@ -11,6 +11,7 @@
 ; **************************************************************************** ;
 
 ; nasm -f macho64 ft_write.s && gcc -o exec main.c ft_write.o && ./exec
+; ssize_t ft_write(int fildes, const void *buf, size_t nbyte)
 
 
 global _ft_write
