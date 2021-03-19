@@ -19,7 +19,7 @@ extern ___error
 section .text
 _ft_read:
 	mov		rax, 0x2000003	; 0x2000000 (MacOS ?) + 0x3 (read syscall)
-	syscall					; write(rdi, rsi, rdx)
+	syscall					; read(rdi, rsi, rdx)
 	jc		_error			; jump to ___error if CF == 1
 	ret
 
