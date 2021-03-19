@@ -21,20 +21,20 @@ _ft_read:
 	push	r8				; store data of r8 in stack
 	push	r9				; store data of r9 in stack
 
-	mov		r8, rsi			; store data of second parameter in r8 before fstat
-	mov		r9, rdx			; store data of third parameter in r9 before fstat
+	mov		r8, rsi			; store data of rsi (buf) in r8 before fstat
+	mov		r9, rdx			; store data of rdx (nbyte) in r9 before fstat
 	mov		rsi, 0x0		; setting NULL pointer to the second parameter before fstat
 	mov		rax, 0x20000BD	; 0x2000000 (MacOS ?) + 0xBD (fstat syscall)
 	syscall					; fstat(rdi, rsi)
 	cmp		rax, 9			; check if fstat returned 9 (errno 9:EBADF)
 	je		_error_fd		; jump to _error_fd if ZF == 1
 
-	mov		rsi, r8			; restore second parameter in rsi
-	cmp		rsi, 0x0		; check if the second parameter is NULL pointer
+	mov		rsi, r8			; restore buf in rsi
+	cmp		rsi, 0x0		; check if rsi (buf) is NULL pointer
 	je		_error_addr		; jump to _error_addr if ZF == 1
 
-	mov		rdx, r9			; restore third parameter in rdx
-	cmp		rdx, 0			; check if the third parameter is negative
+	mov		rdx, r9			; restore nbyte in rdx
+	cmp		rdx, 0			; check if rdx (nbyte) is negative
 	js		_error_args		; jump to _error_args if SF == 1
 
 	mov		rax, 0x2000003	; 0x2000000 (MacOS ?) + 0x3 (read syscall)
