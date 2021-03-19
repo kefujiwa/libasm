@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:11:58 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 23:10:58 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:05:08 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,15 @@ static void	read_test_err(int fd, char *buf, int size)
 {
 	int		ret[2];
 	int		err[2];
-	char	buffer[BUFFER_SIZE];
-	char	*tmp;
 
-	tmp = NULL;
-	if (buf)
-		tmp = buffer;;
 	if (!fd)
 		fd = open("./Makefile", O_RDONLY);
 	printf("-----read(%d, %s, %d)-----\n", fd, buf, size);
 	errno = 0;
-	ret[0] = read(fd, tmp, size);
+	ret[0] = read(fd, buf, size);
 	err[0] = errno;
 	errno = 0;
-	ret[1] = ft_read(fd, tmp, size);
+	ret[1] = ft_read(fd, buf, size);
 	err[1] = errno;
 	if (ret[0] == ret[1] && err[0] == err[1])
 		printf("" GREEN "[OK]" RESET "\n");
@@ -71,16 +66,17 @@ static void	read_test_err(int fd, char *buf, int size)
 
 void		read_tests(void)
 {
+	char	buf[BUFFER_SIZE];
 
 	printf("\n<<<<<<<<<<<< ft_read.s >>>>>>>>>>>>\n");
 	read_test("42");
 	read_test("Born2Code");
 	read_test("Born2CodeBorn2CodeBorn2CodeBorn2CodeBorn2CodeBorn2CodeBorn2CodeBorn2Code");
 	read_test("");
-	read_test_err(0, "buf", 0);
-	read_test_err(-1, "buf", BUFFER_SIZE);
-	read_test_err(100, "buf", BUFFER_SIZE);
+	read_test_err(0, buf, 0);
+	read_test_err(-1, buf, BUFFER_SIZE);
+	read_test_err(100, buf, BUFFER_SIZE);
 	read_test_err(0, NULL, BUFFER_SIZE);
-	read_test_err(0, "buf", -1);
+	read_test_err(0, buf, -1);
 	read_test_err(-1, NULL, -1);
 }
