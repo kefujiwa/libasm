@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:25:33 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 19:51:13 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/19 21:46:43 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@ int		main(void)
 	strlen_tests();
 	strcmp_tests();
 	strcpy_tests();
+	strdup_tests();
 }

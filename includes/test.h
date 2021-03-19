@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 16:52:00 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 19:51:27 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/19 21:48:44 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 /*
 ** MACRO DECLARATION (COLORS)
 */
-# define RESET	"\033[0m"
-# define RED	"\033[31m"
-# define GREEN	"\033[32m"
+# define RESET	"\x1b[0m"
+# define RED	"\x1b[31m"
+# define GREEN	"\x1b[32m"
 
 /*
 ** MACRO DECLARATION (BUFFER_SIZE)
@@ -44,8 +44,9 @@
 */
 void	read_tests(void);
 void	strcmp_tests(void);
+void	strcpy_tests(void);
+void	strdup_tests(void);
 void	strlen_tests(void);
 void	write_tests(void);
-void	strcpy_tests(void);
 
 #endif

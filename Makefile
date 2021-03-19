@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/19 22:42:27 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/19 22:45:10 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ SRCS				= ft_strcmp.s \
 TESTS				= main.c \
 					  strcmp_test.c \
 					  strcpy_test.c \
+					  strdup_test.c \
 					  strlen_test.c \
 					  read_test.c \
 					  write_test.c
@@ -100,7 +101,7 @@ clean:
 
 fclean:				clean
 					@echo "$(_RED)Deleting library '$(NAME)'...\n$(_END)"
-					@$(RM) $(NAME) *.dSYM
+					@$(RM) $(NAME) *.dSYM ./test/*.txt
 
 re:					fclean all
 
