@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 10:56:18 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 23:14:09 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/20 14:56:01 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void    write_test(char *str)
 	printf("-----write(1, \"%s\", %lu)-----\n", str, strlen(str));
 	bzero(buf, BUFFER_SIZE);
 	bzero(ft_buf, BUFFER_SIZE);
-	fd[0] = open("./test/write.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
-	fd[1] = open("./test/ft_write.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
+	fd[0] = open("./test/srcs/write.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
+	fd[1] = open("./test/srcs/ft_write.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
 	ret[0] = write(fd[0], str, strlen(str));
 	ret[1] = ft_write(fd[1], str, strlen(str));
 	lseek(fd[0], 0, SEEK_SET);

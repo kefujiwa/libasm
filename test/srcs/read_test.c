@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:11:58 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/20 02:05:08 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/20 14:56:12 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	read_test(char *str)
 	printf("-----\"%s\"-----\n", str);
 	bzero(buf, BUFFER_SIZE);
 	bzero(ft_buf, BUFFER_SIZE);
-	fd[0] = open("./test/read.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
-	fd[1] = open("./test/ft_read.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
+	fd[0] = open("./test/srcs/read.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
+	fd[1] = open("./test/srcs/ft_read.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
 	write(fd[0], str, strlen(str));
 	write(fd[1], str, strlen(str));
 	lseek(fd[0], 0, SEEK_SET);

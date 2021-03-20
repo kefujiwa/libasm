@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/19 22:45:10 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/20 15:26:33 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,6 @@ CFLAGS				= -Wall -Wextra -Werror
 NA					= nasm
 NFLAGS				= -f macho64
 AR					= ar rcs
-
 # Delete #
 RM					= rm -rf
 
@@ -62,7 +61,10 @@ RM					= rm -rf
 HEADER_DIR			= includes/
 SRCS_DIR			= srcs/
 OBJS_DIR			= objs/srcs/
-TEST_DIR			= test/
+SRCSb_DIR			= bonus/
+OBJSb_DIR			= objs/bonus/
+TEST_DIR			= test/srcs/
+TESTb_DIR			= test/bonus/
 
 # Files #
 SRCS				= ft_strcmp.s \
@@ -81,8 +83,15 @@ TESTS				= main.c \
 					  write_test.c
 T_SRCS				= $(addprefix $(TEST_DIR), $(TESTS))
 
+SRCSb				= ft_atoi_base_bonus.s
+
+TESTSb				= main_bonus.c \
+					  atoi_base_test.c
+T_SRCSb				= $(addprefix $(TESTb_DIR), $(TESTSb))
+
 # Compiled Files #
 OBJS				= $(SRCS:%.s=$(OBJS_DIR)%.o)
+OBJSb				= $(SRCSb:%.s=$(OBJSb_DIR)%.o)
 NAME				= libasm.a
 
 # Executable #
@@ -100,16 +109,27 @@ clean:
 					@$(RM) objs/
 
 fclean:				clean
-					@echo "$(_RED)Deleting library '$(NAME)'...\n$(_END)"
-					@$(RM) $(NAME) *.dSYM ./test/*.txt
+						@echo "$(_RED)Deleting library '$(NAME)'...\n$(_END)"
+						@$(RM) $(NAME) *.dSYM ./test/*.txt
 
 re:					fclean all
 
-test:				re $(NAME)
-					@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(T_SRCS) -o $(EXEC)
-					@./$(EXEC)
-					@$(RM) $(EXEC)
-					@$(RM) $(TEST_DIR)*.txt
+test:				re
+						@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(T_SRCS) -o $(EXEC)
+						@./$(EXEC)
+						@$(RM) $(EXEC)
+						@$(RM) $(TEST_DIR)*.txt
+
+# Bonus Rules #
+bonus:				re $(OBJSb)
+						@$(AR) $(NAME) $(OBJSb)
+						@echo "\n\n$(_GREEN)Library '$(NAME)' compiled.\n$(_END)"
+
+testb:			bonus
+						@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(T_SRCSb) -o $(EXEC)
+						@./$(EXEC)
+						@$(RM) $(EXEC)
+						@$(RM) $(TEST_DIR)*.txts
 
 # Variables Rules #
 $(NAME):			$(OBJS)
@@ -118,13 +138,19 @@ $(NAME):			$(OBJS)
 
 # Compiled Source Files #
 $(OBJS):			$(OBJS_DIR)
+$(OBJSb):			$(OBJSb_DIR)
 
+$(OBJS_DIR)%.o:		$(SRCS_DIR)%.s
+						@printf "$(_YELLOW)Generating libasm objects... %-33.33s\r$(_END)" $@
+						@$(NA) $(NFLAGS) -I $(HEADER_DIR) -s $< -o $@
 $(OBJS_DIR)%.o:		$(SRCS_DIR)%.s
 						@printf "$(_YELLOW)Generating libasm objects... %-33.33s\r$(_END)" $@
 						@$(NA) $(NFLAGS) -I $(HEADER_DIR) -s $< -o $@
 
 $(OBJS_DIR):
-						@mkdir -p $(OBJS_DIR)
+					@mkdir -p $(OBJS_DIR)
+$(OBJSb_DIR):
+					@mkdir -p $(OBJSb_DIR)
 
 # Phony #
 .PHONY:				all, clean, fclean, re, bonus, re_bonus
