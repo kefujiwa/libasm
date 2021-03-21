@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 18:13:56 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 20:29:30 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/22 01:09:41 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,43 @@ void	print_list(t_list *lst)
 		printf("\"%s\" ", lst->data);
 		lst = lst->next;
 	}
+}
+
+void	print_lists(char *name, t_list *list, t_list *ft_list, int *result, int is_ok)
+{
+	if (is_ok)
+	{
+		printf("" GREEN "[OK] " RESET "\n");
+		result[1] += 1;
+	}
+	else
+		printf("" RED "[KO] " RESET "\n");
+	printf("%s:    ", name);
+	print_list(list);
+	printf("\nft_%s: ", name);
+	print_list(ft_list);
+	printf("\n\n");
+}
+
+void	list_clear(t_list **lst, void (*del)(void*))
+{
+	t_list	*next;
+
+	if (!lst || !del)
+		return ;
+	while (*lst)
+	{
+		next = (*lst)->next;
+		list_delone(*lst, del);
+		*lst = next;
+	}
+}
+
+void	list_delone(t_list *lst, void (*del)(void*))
+{
+	if (!lst || !del)
+		return ;
+	if (lst->data)
+		del(lst->data);
+	free(lst);
 }
