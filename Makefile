@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/20 15:26:33 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/21 02:32:22 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -143,7 +143,7 @@ $(OBJSb):			$(OBJSb_DIR)
 $(OBJS_DIR)%.o:		$(SRCS_DIR)%.s
 						@printf "$(_YELLOW)Generating libasm objects... %-33.33s\r$(_END)" $@
 						@$(NA) $(NFLAGS) -I $(HEADER_DIR) -s $< -o $@
-$(OBJS_DIR)%.o:		$(SRCS_DIR)%.s
+$(OBJSb_DIR)%.o:	$(SRCSb_DIR)%.s
 						@printf "$(_YELLOW)Generating libasm objects... %-33.33s\r$(_END)" $@
 						@$(NA) $(NFLAGS) -I $(HEADER_DIR) -s $< -o $@
 
