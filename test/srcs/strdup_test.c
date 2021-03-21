@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 21:49:03 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/19 22:25:28 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/21 14:08:18 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	strdup_test(char *str)
 
 void		strdup_tests(void)
 {
-	printf("\n<<<<<<<<<<<< ft_strcpy.s >>>>>>>>>>>>\n");
+	printf("\n<<<<<<<<<<<< ft_strdup.s >>>>>>>>>>>>\n");
 	strdup_test("abc");
 	strdup_test("");
 	strdup_test("Hello, 42Tokyo");
