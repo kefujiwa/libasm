@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 18:13:56 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 18:14:45 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/21 20:29:30 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,13 @@ void	list_add_back(t_list **lst, t_list *new)
 	}
 	else
 		*lst = new;
+}
+
+void	print_list(t_list *lst)
+{
+	while (lst)
+	{
+		printf("\"%s\" ", lst->data);
+		lst = lst->next;
+	}
 }

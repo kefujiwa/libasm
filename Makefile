@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/21 18:16:15 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/21 19:00:41 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,11 +84,13 @@ TESTS				= main.c \
 T_SRCS				= $(addprefix $(TEST_DIR), $(TESTS))
 
 SRCSb				= ft_atoi_base_bonus.s \
-					  ft_list_size_bonus.s
+					  ft_list_push_front_bonus.s \
+					  ft_list_size_bonus.s \
 
 TESTSb				= main_bonus.c \
 					  atoi_base_test.c \
 					  list_size_test.c \
+					  list_push_front_test.c \
 					  list_utils.c
 T_SRCSb				= $(addprefix $(TESTb_DIR), $(TESTSb))
 
