@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:56:37 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 14:07:39 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/21 16:31:14 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,38 +80,42 @@ static int		atoi_base(char *str, char *base)
 	return (total * sign);
 }
 
-static void		atoi_base_test(char *str, char *base)
+static void		atoi_base_test(char *str, char *base, int *result)
 {
 	int 	ret[2];
 
+	result[0] += 1;
 	printf("-----atoi_base(\"%s\", \"%s\")-----\n", str, base);
 	ret[0] = atoi_base(str, base);
 	ret[1] = ft_atoi_base(str, base);
 	if (ret[0] == ret[1])
+	{
 		printf("" GREEN "[OK] " RESET "\n");
+		result[1] += 1;
+	}
 	else
 		printf("" RED "[KO] " RESET "\n");
 	printf("atoi_base    : %d\n", ret[0]);
 	printf("ft_atoi_base : %d\n\n", ret[1]);
 }
 
-void			atoi_base_tests(void)
+void			atoi_base_tests(int *result)
 {
 	printf("\n<<<<<<<<<<<< atoi_base.s >>>>>>>>>>>>\n");
-	atoi_base_test("2147483647", "0123456789");
-	atoi_base_test("", "0123456789");
-	atoi_base_test("2147483647", "011");
-	atoi_base_test("18f", "0123456789abcdef");
-	atoi_base_test("18fb52", "0123456789");
-	atoi_base_test("18f", "");
-	atoi_base_test("101", "1");
-	atoi_base_test("45", "");
-	atoi_base_test("45", "0");
-	atoi_base_test("--2147483647", "0123456789");
-	atoi_base_test("      ++++---2147483647", "0123456789");
-	atoi_base_test("--2147483648", "0123456789");
-	atoi_base_test("--2147483647", "0123456789-");
-	atoi_base_test("-2147483647", "0123456789-");
-	atoi_base_test(" \t--\t-2147483647", "0123456789");
-	atoi_base_test("  -+\v++-\t--2147483647", "0123456789");
+	atoi_base_test("2147483647", "0123456789", result);
+	atoi_base_test("", "0123456789", result);
+	atoi_base_test("2147483647", "011", result);
+	atoi_base_test("18f", "0123456789abcdef", result);
+	atoi_base_test("18fb52", "0123456789", result);
+	atoi_base_test("18f", "", result);
+	atoi_base_test("101", "1", result);
+	atoi_base_test("45", "", result);
+	atoi_base_test("45", "0", result);
+	atoi_base_test("--2147483647", "0123456789", result);
+	atoi_base_test("      ++++---2147483647", "0123456789", result);
+	atoi_base_test("--2147483648", "0123456789", result);
+	atoi_base_test("--2147483647", "0123456789-", result);
+	atoi_base_test("-2147483647", "0123456789-", result);
+	atoi_base_test(" \t--\t-2147483647", "0123456789", result);
+	atoi_base_test("  -+\v++-\t--2147483647", "0123456789", result);
 }
