@@ -11,7 +11,7 @@
 ; **************************************************************************** ;
 
 ; nasm -f macho64 ft_list_size_bonus.s && gcc -o exec main.c ft_list_size_bonus.o && ./exec
-; int ft_list_size(t_list *lst);
+; int ft_list_size(t_list *begin_list);
 
 global _ft_list_size
 

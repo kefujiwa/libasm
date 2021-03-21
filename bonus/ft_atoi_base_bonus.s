@@ -22,8 +22,8 @@ _ft_atoi_base:
 	push	rsi						; push rsi (base) onto the stack
 	mov		rdi, rsi				; copy rsi (base) to rdi before calling  __is_valid_base
 	call	__is_valid_base
-	pop		rsi						; pop previous value off the stack and store it to rsi
-	pop		rdi						; pop previous value off the stack and store it to rdi
+	pop		rsi						; pop the last stack element off and store it to rsi
+	pop		rdi						; pop the last stack element off and store it to rdi
 	cmp		rax, 0					; if (is_valid_base(base) == 0)
 	je		_return					; jump to _return if ZF == 1
 
@@ -31,8 +31,8 @@ _ft_atoi_base:
 	push	rdi						; push rdi (str) onto the stack
 	push	rsi						; push rsi (base) onto the stack
 	call	__is_space
-	pop		rsi						; pop previous value off the stack and store it to rsi
-	pop		rdi						; pop previous value off the stack and store it to rdi
+	pop		rsi						; pop the last stack element off and store it to rsi
+	pop		rdi						; pop the last stack element off and store it to rdi
 	cmp		rax, 1					; if (is_space(str) == 1)
 	jne		_check_sign				; jump to _check_sign if ZF == 0
 	inc		rdi						; str++
@@ -63,10 +63,10 @@ _calculate:
 	push	r9						; push r9 (total) onto the stack
 	mov		rdi, rsi				; copy rsi (base) to rdi (first parameter) before _ft_strlen
 	call	_ft_strlen
-	pop		r9						; pop previous value off the stack and store it to r9
-	pop		r8						; pop previous value off the stack and store it to r8
-	pop		rsi						; pop previous value off the stack and store it to rsi
-	pop		rdi						; pop previous value off the stack and store it to rdi
+	pop		r9						; pop the last stack element off and store it to r9
+	pop		r8						; pop the last stack element off and store it to r8
+	pop		rsi						; pop the last stack element off and store it to rsi
+	pop		rdi						; pop the last stack element off and store it to rdi
 	mov		r10, rax				; copy rax (length) to r10
 
 .loop:
@@ -75,10 +75,10 @@ _calculate:
 	push	r8						; push r8 (sign) onto the stack
 	push	r9						; push r9 (total) onto the stack
 	call	__get_value
-	pop		r9						; pop previous value off the stack and store it to r9
-	pop		r8						; pop previous value off the stack and store it to r8
-	pop		rsi						; pop previous value off the stack and store it to rsi
-	pop		rdi						; pop previous value off the stack and store it to rdi
+	pop		r9						; pop the last stack element off and store it to r9
+	pop		r8						; pop the last stack element off and store it to r8
+	pop		rsi						; pop the last stack element off and store it to rsi
+	pop		rdi						; pop the last stack element off and store it to rdi
 	cmp		rax, 0					; check if rax (return value of __get_value) is 0
 	jl		.result					; jump to .result if (SF ! OF)
 	imul	r9, r10					; total *= length
@@ -113,7 +113,7 @@ __is_valid_base:
 
 	push	rdi						; push rdi (str) onto the stack
 	call	__is_space
-	pop		rdi						; pop previous value off the stack and store it to rdi
+	pop		rdi						; pop the last stack element off and store it to rdi
 	cmp		rax, 1					; if (is_space(*str) == 1)
 	je		.invalid				; jump to .invalid if ZF == 1
 
