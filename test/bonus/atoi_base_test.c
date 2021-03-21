@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:56:37 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 16:31:14 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/21 16:40:58 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static void		atoi_base_test(char *str, char *base, int *result)
 
 void			atoi_base_tests(int *result)
 {
-	printf("\n<<<<<<<<<<<< atoi_base.s >>>>>>>>>>>>\n");
+	printf("\n<<<<<<<<<<<< ft_atoi_base.s >>>>>>>>>>>>\n");
 	atoi_base_test("2147483647", "0123456789", result);
 	atoi_base_test("", "0123456789", result);
 	atoi_base_test("2147483647", "011", result);
