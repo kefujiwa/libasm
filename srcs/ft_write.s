@@ -13,10 +13,8 @@
 ; nasm -f macho64 ft_write.s && gcc -o exec main.c ft_write.o && ./exec
 ; ssize_t ft_write(int fildes, const void *buf, size_t nbyte)
 
-
 global _ft_write
 extern ___error
-
 
 section .text
 _ft_write:
@@ -28,7 +26,7 @@ _ft_write:
 _error:
 	push	rax				; push rax (return value of syscall) onto the stack
 	call	___error		; store ptr of variable errno to rax
-	pop		r8				; pop previous value off the stack and store it to r8
+	pop		r8				; pop the last stack element off and store it to r8
 	mov		byte [rax], r8b	; assign return value of syscall to errno
 	mov		rax, -1			; set -1 as return value
 	ret

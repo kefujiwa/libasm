@@ -23,13 +23,13 @@ section .text
 _ft_strdup:
 	push	rdi					; push rdi (s1) onto the stack
 	call	_ft_strlen			; calculate length of s1 and store it to rax
-	pop		rdi					; pop previous value off the stack and store it to rdi
+	pop		rdi					; pop the last stack element off and store it to rdi
 	inc		rax					; increment rax (length)
 
 	push	rdi					; push rdi (s1) onto the stack
 	mov		rdi, rax			; copy rax (length + 1) to rdi (first parameter) before _malloc
 	call	_malloc
-	pop		rdi					; pop previous value off the stack and store it to rdi
+	pop		rdi					; pop the last stack element off and store it to rdi
 	cmp		rax, 0				; check if the ptr is NULL pointer
 	je		_error				; jump to _error if ZF == 1
 
