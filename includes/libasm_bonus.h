@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 02:37:07 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/20 02:43:06 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/21 16:34:54 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ typedef struct	s_list
 ** PROTOTYPE DECLARATION
 */
 int				ft_atoi_base(char *str, char *base);
+int				ft_list_size(t_list *lst);
 
 #endif
