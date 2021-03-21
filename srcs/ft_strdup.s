@@ -27,15 +27,15 @@ _ft_strdup:
 	inc		rax					; increment rax (length)
 
 	push	rdi					; push rdi (s1) onto the stack
-	mov		rdi, rax			; copy rax (length + 1) to rdi (first parameter)
-	call	_malloc				; do memory allocation and return the ptr to rax
+	mov		rdi, rax			; copy rax (length + 1) to rdi (first parameter) before _malloc
+	call	_malloc
 	pop		rdi					; pop previous value off the stack and store it to rdi
 	cmp		rax, 0				; check if the ptr is NULL pointer
 	je		_error				; jump to _error if ZF == 1
 
-	mov		rsi, rdi			; copy rdi (s1) to rsi (second parameter)
-	mov		rdi, rax			; copy rax (ptr) to rdi (first parameter)
-	call	_ft_strcpy			; copy string s1 to ptr
+	mov		rsi, rdi			; copy rdi (s1) to rsi (second parameter) before _ft_strcpy
+	mov		rdi, rax			; copy rax (ptr) to rdi (first parameter) before _ft_strcpy
+	call	_ft_strcpy
 	ret
 
 _error:
