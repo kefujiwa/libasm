@@ -17,15 +17,13 @@ global _ft_strcpy
 
 section .text
 _ft_strcpy:
-	push	rcx						; store data of rcx in stack
 	mov		rcx, -1					; initialize counter to 0
 
 _loop:
 	inc		rcx						; increment counter
 	mov		al, byte [rsi + rcx]	; copy value of src[cnt] to al (8bit register)
 	mov		byte [rdi + rcx], al	; copy al to dst[cnt]
-	cmp		al, 0x0					; check if al is null character
+	cmp		al, 0					; check if al is null character
 	jne		_loop					; jump to _loop if ZF == 0
 	mov		rax, rdi				; return dst
-	pop		rcx						; restore data of rcx
 	ret

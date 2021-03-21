@@ -17,8 +17,7 @@ global _ft_strcmp
 
 section .text
 _ft_strcmp:
-	mov		rax, 0x0				; initialize rax to 0
-	push	rcx						; store data of rcx in stack
+	mov		rax, 0					; initialize rax to 0
 	mov		rcx, -1					; initialize counter to 0
 
 _loop:
@@ -26,14 +25,11 @@ _loop:
 	mov		al, byte [rdi + rcx]	; copy value of s1[cnt] to al (8bit register)
 	cmp		al, byte [rsi + rcx]	; check if s1[cnt] == s2[cnt]
 	jne		_not_equal				; jump to _not_equal if ZF == 0
-	cmp		al, 0x0					; when _is_equal, check if s1[cnt] is null character
+	cmp		al, 0					; check if s1[cnt] is null character
 	jne		_loop					; jump to _loop if ZF == 0
-
-_return:
-	pop		rcx						; restore data of rcx
 	ret
 
 _not_equal:
 	sub		al, byte [rsi + rcx]	; subtract s1[cnt] from s2[cnt] and store it to al
 	movsx	rax, al					; extend 8 bit register al to 64 bit register rax (sign-extension) and return
-	jmp		_return
+	ret

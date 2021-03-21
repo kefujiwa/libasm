@@ -25,10 +25,9 @@ _ft_read:
 
 
 _error:
-	push	r8				; store data of r8 in stack
-	mov		r8, rax			; copy rax (return value) to r8
+	push	rax				; push rax (return value of syscall) onto the stack
 	call	___error		; store ptr of variable errno to rax
+	pop		r8				; pop previous value off the stack and store it to r8
 	mov		byte [rax], r8b	; assign return value of syscall to errno
-	pop		r8				; restore data of r8
 	mov		rax, -1			; set -1 as return value
 	ret

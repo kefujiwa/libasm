@@ -21,24 +21,24 @@ extern _ft_strlen
 
 section .text
 _ft_strdup:
+	push	rdi					; push rdi (s1) onto the stack
 	call	_ft_strlen			; calculate length of s1 and store it to rax
-	inc		rax					; increment rax for null character
+	pop		rdi					; pop previous value off the stack and store it to rdi
+	inc		rax					; increment rax (length)
 
-	push	rdi					; store data of rdi (s1) to stack
-	mov		rdi, rax			; copy rax (len + 1) to rdi (first parameter)
+	push	rdi					; push rdi (s1) onto the stack
+	mov		rdi, rax			; copy rax (length + 1) to rdi (first parameter)
 	call	_malloc				; do memory allocation and return the ptr to rax
-	pop		rdi					; restore rdi (s1)
-	cmp		rax, 0x0			; check if the ptr is NULL pointer
-	je		_failure			; jump to _failure if ZF == 1
+	pop		rdi					; pop previous value off the stack and store it to rdi
+	cmp		rax, 0				; check if the ptr is NULL pointer
+	je		_error				; jump to _error if ZF == 1
 
-	push	rsi					; store data of rsi to stack
 	mov		rsi, rdi			; copy rdi (s1) to rsi (second parameter)
 	mov		rdi, rax			; copy rax (ptr) to rdi (first parameter)
 	call	_ft_strcpy			; copy string s1 to ptr
-	pop		rsi					; restore rsi
 	ret
 
-_failure:
+_error:
 	call	___error			; store ptr of variable errno to rax
 	mov		byte [rax], 12		; assign 12:ENOMEM to errno
 	ret

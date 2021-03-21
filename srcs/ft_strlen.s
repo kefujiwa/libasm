@@ -20,7 +20,7 @@ _ft_strlen:
 	mov		rax, 0					; initialize counter to 0
 
 _loop:
-	cmp		byte [rdi + rax], 0x0	; check if value of ptr [rdi + rax] is null character
+	cmp		byte [rdi + rax], 0		; check if value of ptr [rdi + rax] is null character
 	je		_return					; jump to _return if ZF == 1
 	inc		rax						; increment counter
 	jne		_loop					; jump to _loop if ZF == 0
