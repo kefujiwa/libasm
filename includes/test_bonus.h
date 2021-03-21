@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 15:03:38 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 16:31:30 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/21 18:17:35 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,10 @@
 ** PROTOTYPE DECLARATION
 */
 void	atoi_base_tests(int *result);
+void	list_size_tests(int *result);
+
+void	list_add_back(t_list **lst, t_list *new);
+t_list	*list_last(t_list *lst);
+t_list	*list_new(void *data);
 
 #endif

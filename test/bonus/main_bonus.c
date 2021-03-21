@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:25:33 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 16:30:01 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/21 18:44:29 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 int		main(void)
 {
 	int	result[2];
+	t_list	aaa;
 
+	printf("void*: %lu\nt_list*: %lu\nt_list: %lu\n", sizeof(aaa.data), sizeof(aaa.next), sizeof(aaa));
 	result[0] = 0;
 	result[1] = 0;
 	printf("============ Start Test ============\n\n");
 	atoi_base_tests(result);
+	list_size_tests(result);
 	printf("============ RESULT ============\n\n");
 	if (result[0] == result[1])
 		printf("" GREEN "[ALL OK]\n" RESET "");
