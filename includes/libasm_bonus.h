@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 02:37:07 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 21:01:09 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/22 02:24:27 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void			ft_list_push_front(t_list **begin_list, void *data);
 void			ft_list_remove_if(t_list **begin_list, void *data_ref,
 									int (*cmp)(), void (*free_fct)(void *));
 int				ft_list_size(t_list *begin_list);
+void			ft_list_sort(t_list **begin_list, int (*cmp)());
 
 #endif
