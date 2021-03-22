@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/22 22:31:48 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/22 23:03:53 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,7 +131,7 @@ test:				re
 # Bonus Rules #
 bonus:				re $(OBJSb)
 						@$(AR) $(NAME) $(OBJSb)
-						@echo "\n\n$(_GREEN)Library '$(NAME)' compiled.\n$(_END)"
+						@echo "\n\n$(_GREEN)Bonus objects are included to '$(NAME)'.\n$(_END)"
 
 testb:			bonus
 						@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(T_SRCSb) -o $(EXEC)
@@ -151,7 +151,7 @@ $(OBJS_DIR)%.o:		$(SRCS_DIR)%.s
 						@printf "$(_YELLOW)Generating libasm objects... %-33.33s\r$(_END)" $@
 						@$(NA) $(NFLAGS) -I $(HEADER_DIR) -s $< -o $@
 $(OBJSb_DIR)%.o:	$(SRCSb_DIR)%.s
-						@printf "$(_YELLOW)Generating libasm objects... %-33.33s\r$(_END)" $@
+						@printf "$(_YELLOW)Generating libasm bonus objects... %-33.33s\r$(_END)" $@
 						@$(NA) $(NFLAGS) -I $(HEADER_DIR) -s $< -o $@
 
 $(OBJS_DIR):
