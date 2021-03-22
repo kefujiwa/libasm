@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 19:00:15 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/22 01:49:18 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/23 00:10:13 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void		list_push_front_tests(int *result)
 	print_list(list);
 	list_clear(&list, free);
 	printf("" RESET "\n\nAFTER>>>\n");
-	list_push_front_test(strdup("4242"), result);
-	list_push_front_test(strdup(""), result);
-	list_push_front_test(strdup("HELLO, 42TOKYO"), result);
+	list_push_front_test(("4242"), result);
+	list_push_front_test("", result);
+	list_push_front_test("HELLO, 42TOKYO", result);
 	list_push_front_test(NULL, result);
 }
