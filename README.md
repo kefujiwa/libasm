@@ -13,7 +13,7 @@ libasm is a project to rewrite following functions in assembly language.
 | [ft_list_push_front](./bonus/ft_push_front_bonus.s) | like the one in the piscine |
 | [ft_list_size](./bonus/ft_list_size_bonus.s) | like the one in the piscine |
 | [ft_list_sort](./bonus/ft_list_sort_bonus.s) | like the one in the piscine |
-| [ft_list_remove_if](./bonus/ft_remove_if_bonus.s) | like the one in the piscine |
+| [ft_list_remove_if](./bonus/ft_list_remove_if_bonus.s) | like the one in the piscine |
 
 ## Getting Started
 ```Bash
