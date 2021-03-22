@@ -6,18 +6,18 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 10:56:18 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 16:17:50 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/22 23:00:10 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
-static void    write_test(char *str, int *result)
+static void		write_test(char *str, int *result)
 {
-	int     fd[2];
-	char    buf[BUFFER_SIZE];
-	char    ft_buf[BUFFER_SIZE];
-	int     ret[4];
+	int		fd[2];
+	char	buf[BUFFER_SIZE];
+	char	ft_buf[BUFFER_SIZE];
+	int		ret[4];
 
 	result[0] += 1;
 	printf("-----write(1, \"%s\", %lu)-----\n", str, strlen(str));
@@ -40,16 +40,16 @@ static void    write_test(char *str, int *result)
 	}
 	else
 		printf("" RED "[KO]" RESET "\n");
-	printf("write    [%d] : %s\n",  ret[0], buf);
+	printf("write    [%d] : %s\n", ret[0], buf);
 	printf("ft_write [%d] : %s\n\n", ret[1], ft_buf);
 	close(fd[0]);
 	close(fd[1]);
 }
 
-static void    write_test_err(int fd, char *str, int len, int *result)
+static void		write_test_err(int fd, char *str, int len, int *result)
 {
-	int ret[2];
-	int err[2];
+	int	ret[2];
+	int	err[2];
 
 	result[0] += 1;
 	printf("-----write(%d, \"%s\", %d)-----\n", fd, str, len);

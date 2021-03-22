@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 02:25:35 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/22 22:32:47 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/22 23:00:49 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 static t_list	*merge(t_list *a, t_list *b, int (*f)(void*, void*))
 {
 	t_list	result;
-	t_list	*y;
 	t_list	*x;
 
-	y = &result;
 	x = &result;
 	while (a != NULL && b != NULL)
 	{
@@ -149,11 +147,9 @@ void			list_sort_tests(int *result)
 	list_init1(&list);
 	list_init1(&ft_list);
 	list_sort_test(&list, &ft_list, result);
-
 	list_init2(&list);
 	list_init2(&ft_list);
 	list_sort_test(&list, &ft_list, result);
-
 	list_init3(&list);
 	list_init3(&ft_list);
 	list_sort_test(&list, &ft_list, result);

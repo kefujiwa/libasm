@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 16:36:27 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/22 22:28:02 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/22 22:55:12 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	list_size_test(int size, int *result)
 
 	result[0] += 1;
 	list = NULL;
-	tmp	= size;
+	tmp = size;
 	while (tmp--)
 		list_add_back(&list, list_new(strdup("42")));
 	ret[0] = list_size(list);

@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:56:37 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 16:40:58 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/22 22:57:50 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int		atoi_base(char *str, char *base)
 
 static void		atoi_base_test(char *str, char *base, int *result)
 {
-	int 	ret[2];
+	int	ret[2];
 
 	result[0] += 1;
 	printf("-----atoi_base(\"%s\", \"%s\")-----\n", str, base);
