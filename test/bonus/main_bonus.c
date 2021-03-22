@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 18:25:33 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/22 00:58:51 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/22 04:57:16 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int		main(void)
 	list_size_tests(result);
 	list_push_front_tests(result);
 	list_remove_if_tests(result);
+	list_sort_tests(result);
 	printf("============ RESULT ============\n\n");
 	if (result[0] == result[1])
 		printf("" GREEN "[ALL OK]\n" RESET "");

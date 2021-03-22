@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 15:03:38 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/22 01:46:11 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/22 02:25:20 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	atoi_base_tests(int *result);
 void	list_push_front_tests(int *result);
 void	list_remove_if_tests(int *result);
 void	list_size_tests(int *result);
+void	list_sort_tests(int *result);
 
 void	list_add_back(t_list **lst, t_list *new);
 void	list_clear(t_list **lst, void (*del)(void*));

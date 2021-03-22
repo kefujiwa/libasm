@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/22 00:29:12 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/22 22:31:48 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,12 +87,14 @@ SRCSb				= ft_atoi_base_bonus.s \
 					  ft_list_push_front_bonus.s \
 					  ft_list_remove_if_bonus.s \
 					  ft_list_size_bonus.s \
+					  ft_list_sort_bonus.s
 
 TESTSb				= main_bonus.c \
 					  atoi_base_test.c \
 					  list_push_front_test.c \
 					  list_remove_if_test.c \
 					  list_size_test.c \
+					  list_sort_test.c \
 					  list_utils.c
 T_SRCSb				= $(addprefix $(TESTb_DIR), $(TESTSb))
 
@@ -117,14 +119,13 @@ clean:
 
 fclean:				clean
 						@echo "$(_RED)Deleting library '$(NAME)'...\n$(_END)"
-						@$(RM) $(NAME) *.dSYM ./test/*.txt
+						@$(RM) $(NAME) $(EXEC) *.dSYM ./test/*.txt
 
 re:					fclean all
 
 test:				re
 						@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(T_SRCS) -o $(EXEC)
 						@./$(EXEC)
-						@$(RM) $(EXEC)
 						@$(RM) $(TEST_DIR)*.txt
 
 # Bonus Rules #
@@ -133,9 +134,8 @@ bonus:				re $(OBJSb)
 						@echo "\n\n$(_GREEN)Library '$(NAME)' compiled.\n$(_END)"
 
 testb:			bonus
-						@$(CC) $(CFLAGS) -g -fsanitize=address -I $(HEADER_DIR) $(NAME) $(T_SRCSb) -o $(EXEC)
+						@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(T_SRCSb) -o $(EXEC)
 						@./$(EXEC)
-						@$(RM) $(EXEC)
 						@$(RM) $(TEST_DIR)*.txts
 
 # Variables Rules #
