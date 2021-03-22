@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/22 23:03:53 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/03/23 02:05:50 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ## COLORS ##
 
 # Formats #
-_END				= \x1b[0m
+_RESET				= \x1b[0m
 _BOLD				= \x1b[1m
 _DIM				= \x1b[2m
 _UNDER				= \x1b[4m
@@ -114,11 +114,11 @@ EXEC				= exec
 all:				$(NAME)
 
 clean:
-					@echo "$(_RED)Cleaning libasm objects...\n$(_END)"
+					@echo "$(_RED)Cleaning libasm objects...\n$(_RESET)"
 					@$(RM) objs/
 
 fclean:				clean
-						@echo "$(_RED)Deleting library '$(NAME)'...\n$(_END)"
+						@echo "$(_RED)Deleting library '$(NAME)'...\n$(_RESET)"
 						@$(RM) $(NAME) $(EXEC) *.dSYM ./test/*.txt
 
 re:					fclean all
@@ -131,27 +131,27 @@ test:				re
 # Bonus Rules #
 bonus:				re $(OBJSb)
 						@$(AR) $(NAME) $(OBJSb)
-						@echo "\n\n$(_GREEN)Bonus objects are included to '$(NAME)'.\n$(_END)"
+						@echo "\n\n$(_GREEN)Bonus objects are included to '$(NAME)'.\n$(_RESET)"
 
 testb:			bonus
 						@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(T_SRCSb) -o $(EXEC)
 						@./$(EXEC)
 						@$(RM) $(TEST_DIR)*.txts
 
-# Variables Rules #
+# Variable Rules #
 $(NAME):			$(OBJS)
 						@$(AR) $(NAME) $(OBJS)
-						@echo "\n\n$(_GREEN)Library '$(NAME)' compiled.\n$(_END)"
+						@echo "\n\n$(_GREEN)Library '$(NAME)' compiled.\n$(_RESET)"
 
 # Compiled Source Files #
 $(OBJS):			$(OBJS_DIR)
 $(OBJSb):			$(OBJSb_DIR)
 
 $(OBJS_DIR)%.o:		$(SRCS_DIR)%.s
-						@printf "$(_YELLOW)Generating libasm objects... %-33.33s\r$(_END)" $@
+						@printf "$(_YELLOW)Generating libasm objects... %-33.33s\r$(_RESET)" $@
 						@$(NA) $(NFLAGS) -I $(HEADER_DIR) -s $< -o $@
 $(OBJSb_DIR)%.o:	$(SRCSb_DIR)%.s
-						@printf "$(_YELLOW)Generating libasm bonus objects... %-33.33s\r$(_END)" $@
+						@printf "$(_YELLOW)Generating libasm bonus objects... %-33.33s\r$(_RESET)" $@
 						@$(NA) $(NFLAGS) -I $(HEADER_DIR) -s $< -o $@
 
 $(OBJS_DIR):
