@@ -17,19 +17,55 @@ global _ft_strcmp
 
 section .text
 _ft_strcmp:
-	mov		rax, 0					; initialize rax to 0
-	mov		rcx, -1					; initialize counter to 0
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	mov		qword [rbp - 8], rdi		; copy rdi (s1) to rbp - 8
+	mov		qword [rbp - 16], rsi		; copy rsi (s2) to rbp - 16
 
 _loop:
-	inc		rcx						; increment counter
-	mov		al, byte [rdi + rcx]	; copy value of s1[cnt] to al (8bit register)
-	cmp		al, byte [rsi + rcx]	; check if s1[cnt] == s2[cnt]
-	jne		_not_equal				; jump to _not_equal if ZF == 0
-	cmp		al, 0					; check if s1[cnt] is null character
-	jne		_loop					; jump to _loop if ZF == 0
-	ret
+	xor		eax, eax					; initialize eax to 0
+	mov		rcx, qword [rbp - 8]
+	movsx	edx, byte [rcx]				; copy *s1 to edx, extend 8bit to 32bit register (sign-extension)
+	cmp		edx, 0						; if (*s1 == 0)
+	mov		byte [rbp - 17], al			; copy 0 to rbp - 17
+	je		_loop_if					; jump to _loop_if if ZF == 1
 
-_not_equal:
-	sub		al, byte [rsi + rcx]	; subtract s1[cnt] from s2[cnt] and store it to al
-	movsx	rax, al					; extend 8 bit register al to 64 bit register rax (sign-extension) and return
+	xor		eax, eax					; initialize eax to 0
+	mov		rcx, qword [rbp - 16]
+	movsx	edx, byte [rcx]				; copy *s2 to edx, extend 8bit to 32bit register (sign-extension)
+	cmp		edx, 0						; if (*s2 == 0)
+	mov		byte [rbp - 17], al			; copy 0 to rbp - 17
+	je		_loop_if					; jump to _loop_if if ZF == 1
+
+	mov		rax, qword [rbp - 8]
+	movsx	ecx, byte [rax]				; copy *s1 to ecx, extend 8bit to 32bit register (sign-extension)
+	mov		rax, qword [rbp - 16]
+	movsx	edx, byte [rax]				; copy *s2 to edx, extend 8bit to 32 bit regiter (sign-extension)
+	cmp		ecx, edx					; if (*s1 == *s2)
+	sete	sil							; set 1 to sil if ZF == 1, otherwise set 0
+	mov		byte [rbp - 17], sil
+
+_loop_if:
+	mov		al, byte [rbp - 17]
+	test	al, 1						; al &= 1
+	jnz		_next						; jump to _next if ZF == 1
+	jmp		_result
+
+_next:
+	mov		rax, qword [rbp - 8]
+	inc		rax							; s1++
+	mov		qword [rbp - 8], rax
+	mov		rax, qword [rbp - 16]
+	inc		rax							; s2++
+	mov		qword [rbp - 16], rax
+	jmp		_loop
+
+_result:
+	mov		rax, qword [rbp - 8]
+	movzx	ecx, byte [rax]				; copy *s1 to ecx, extend 8bit to 32bit register (zero-extension)
+	mov		rax, qword [rbp - 16]
+	movzx	edx, byte [rax]				; copy *s2 to edx, extend 8bit to 32bit register (zero-extension)
+	sub		ecx, edx					; (unsigned int)*s1 - (unsinged int)*s2
+	mov		eax, ecx
+	pop		rbp
 	ret
