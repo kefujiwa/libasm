@@ -24,9 +24,8 @@ _ft_write:
 	ret
 
 _error:
-	push	rax				; push rax (return value of syscall) onto the stack
+	mov		rdx, rax		; copy rax (return value of syscall) to rdx
 	call	___error		; store ptr of variable errno to rax
-	pop		r8				; pop the last stack element off and store it to r8
-	mov		byte [rax], r8b	; assign return value of syscall to errno
+	mov		byte [rax], dl	; assign return value of syscall to errno
 	mov		rax, -1			; set -1 as return value
 	ret
