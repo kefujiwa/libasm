@@ -20,10 +20,10 @@ section .text
 _ft_read:
 	mov		rax, 0x2000003	; 0x2000000 (MacOS ?) + 0x3 (read syscall)
 	syscall					; read(rdi, rsi, rdx)
-	jc		_error			; jump to ___error if CF == 1
+	jc		error			; jump to ___error if CF == 1
 	ret
 
-_error:
+error:
 	mov		rdx, rax		; copy rax (return value of syscall) to rcx
 	call	___error		; store ptr of variable errno to rax
 	mov		byte [rax], dl	; assign return value of syscall to errno

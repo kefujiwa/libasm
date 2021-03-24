@@ -33,18 +33,18 @@ _ft_strdup:
 	call	_malloc
 	mov		qword [rbp - 24], rax		; copy rax (dst) on the stack
 	cmp		qword [rbp - 24], 0			; if (ptr == NULL)
-	jne		_next						; jump to _next if ZF == 0
+	jne		next						; jump to _next if ZF == 0
 	mov		qword [rbp - 8], 0			; copy 0 on the stack for return value
-	jmp		_return
+	jmp		return
 
-_next:
+next:
 	mov		rdi, qword [rbp - 24]		; copy dst to rdi (first parameter)
 	mov		rsi, qword [rbp - 16]		; copy s1 to rsi (second parameter)
 	call	_ft_strcpy
 	mov		rcx, qword [rbp - 24]		; copy dst to rcx
 	mov		qword [rbp - 8], rcx		; copy dst on the stack for return value
 
-_return:
+return:
 	mov		rax, qword [rbp - 8]
 	add		rsp, 32						; release 32 bytes spaces on the stack
 	pop		rbp

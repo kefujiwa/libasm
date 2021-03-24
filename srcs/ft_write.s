@@ -20,10 +20,10 @@ section .text
 _ft_write:
 	mov		rax, 0x2000004	; 0x2000000 (MacOS ?) + 0x4 (write syscall)
 	syscall					; write(rdi, rsi, rdx)
-	jc		_error			; jump to _success if CF == 1
+	jc		error			; jump to _success if CF == 1
 	ret
 
-_error:
+error:
 	mov		rdx, rax		; copy rax (return value of syscall) to rdx
 	call	___error		; store ptr of variable errno to rax
 	mov		byte [rax], dl	; assign return value of syscall to errno
