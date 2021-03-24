@@ -48,7 +48,7 @@ _loop:
 _loop_if:
 	mov		al, byte [rbp - 17]
 	test	al, 1						; al &= 1
-	jnz		_next						; jump to _next if ZF == 1
+	jnz		_next						; jump to _next if ZF == 0
 	jmp		_result
 
 _next:
