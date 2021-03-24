@@ -14,31 +14,38 @@
 ; char *ft_strdup(const char *s1)
 
 global _ft_strdup
-extern ___error
 extern _malloc
 extern _ft_strcpy
 extern _ft_strlen
 
 section .text
 _ft_strdup:
-	push	rdi					; push rdi (s1) onto the stack
-	call	_ft_strlen			; calculate length of s1 and store it to rax
-	pop		rdi					; pop the last stack element off and store it to rdi
-	inc		rax					; increment rax (length)
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	sub		rsp, 32						; secure 32 bytes spaces on the stack for this function
+	mov		qword [rbp - 16], rdi		; copy rdi (s1) on the stack
 
-	push	rdi					; push rdi (s1) onto the stack
-	mov		rdi, rax			; copy rax (length + 1) to rdi (first parameter) before _malloc
+	call	_ft_strlen
+	inc		rax							; len++
+	mov		qword [rbp - 32], rax		; copy rax (len) on the stack
+	
+	mov		rdi, rax					; copy rax (len) to rdi (first paramater)
 	call	_malloc
-	pop		rdi					; pop the last stack element off and store it to rdi
-	cmp		rax, 0				; check if the ptr is NULL pointer
-	je		_error				; jump to _error if ZF == 1
+	mov		qword [rbp - 24], rax		; copy rax (dst) on the stack
+	cmp		qword [rbp - 24], 0			; if (ptr == NULL)
+	jne		_next						; jump to _next if ZF == 0
+	mov		qword [rbp - 8], 0			; copy 0 on the stack for return value
+	jmp		_return
 
-	mov		rsi, rdi			; copy rdi (s1) to rsi (second parameter) before _ft_strcpy
-	mov		rdi, rax			; copy rax (ptr) to rdi (first parameter) before _ft_strcpy
+_next:
+	mov		rdi, qword [rbp - 24]		; copy dst to rdi (first parameter)
+	mov		rsi, qword [rbp - 16]		; copy s1 to rsi (second parameter)
 	call	_ft_strcpy
-	ret
+	mov		rcx, qword [rbp - 24]		; copy dst to rcx
+	mov		qword [rbp - 8], rcx		; copy dst on the stack for return value
 
-_error:
-	call	___error			; store ptr of variable errno to rax
-	mov		byte [rax], 12		; assign 12:ENOMEM to errno
+_return:
+	mov		rax, qword [rbp - 8]
+	add		rsp, 32						; release 32 bytes spaces on the stack
+	pop		rbp
 	ret
