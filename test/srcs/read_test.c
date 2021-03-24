@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:11:58 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/22 22:58:35 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/25 03:11:09 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static void	read_test(char *str, int *result)
 	}
 	else
 		printf("" RED "[KO]" RESET "\n");
-	printf("read    [%d] : %s\n", ret[0], buf);
-	printf("ft_read [%d] : %s\n\n", ret[1], ft_buf);
+	printf("read    : return > %d\n          buf    > %s\n", ret[0], buf);
+	printf("ft_read : return > %d\n          buf    > %s\n\n", ret[1], ft_buf);
 	close(fd[0]);
 	close(fd[1]);
 }

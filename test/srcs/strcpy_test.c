@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 19:51:34 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 16:14:17 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/25 03:17:54 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	strcpy_test(char *str, int *result)
 	char	*ret[2];
 
 	result[0] += 1;
-	printf("-----\"%s\"-----\n", str);
+	printf("-----strcpy(dst, \"%s\")-----\n", str);
 	bzero(dst, BUFFER_SIZE);
 	bzero(ft_dst, BUFFER_SIZE);
 	ret[0] = strcpy(dst, str);
@@ -31,8 +31,8 @@ static void	strcpy_test(char *str, int *result)
 	}
 	else
 		printf("" RED "[KO]" RESET "\n");
-	printf("strcpy    : dst > %s\n          : ret > %s\n", dst, ret[0]);
-	printf("ft_strcpy : dst > %s\n          : ret > %s\n\n", ft_dst, ret[1]);
+	printf("strcpy    : dst    > %s\n          : return > %s\n", dst, ret[0]);
+	printf("ft_strcpy : dst    > %s\n          : return > %s\n\n", ft_dst, ret[1]);
 }
 
 void		strcpy_tests(int *result)

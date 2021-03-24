@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 21:49:03 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 16:19:33 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/25 03:18:43 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	strdup_test(char *str, int *result)
 	char	*ret[2];
 
 	result[0] += 1;
-	printf("-----\"%s\"-----\n", str);
+	printf("-----strdup(\"%s\")-----\n", str);
 	ret[0] = strdup(str);
 	ret[1] = ft_strdup(str);
 	if (!strcmp(ret[0], ret[1]))
@@ -27,8 +27,8 @@ static void	strdup_test(char *str, int *result)
 	}
 	else
 		printf("" RED "[KO]" RESET "\n");
-	printf("strdup    : %s\n", ret[0]);
-	printf("ft_strdup : %s\n\n", ret[1]);
+	printf("strdup    : return > %s\n", ret[0]);
+	printf("ft_strdup : return > %s\n\n", ret[1]);
 	free(ret[0]);
 	free(ret[1]);
 }

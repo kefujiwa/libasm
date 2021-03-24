@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:16:01 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/21 16:16:21 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/25 03:15:22 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,11 @@
 static void	strlen_test(char *str, int *result)
 {
 	int	ret[2];
-	int	err[2];
 
 	result[0] += 1;
-	errno = 0;
 	printf("-----strlen(%s)-----\n", str);
 	ret[0] = strlen(str);
-	err[0] = errno;
-	errno = 0;
 	ret[1] = ft_strlen(str);
-	err[1] = errno;
 	if (ret[0] == ret[1])
 	{
 		printf("" GREEN "[OK]" RESET "\n");
@@ -32,8 +27,8 @@ static void	strlen_test(char *str, int *result)
 	}
 	else
 		printf("" RED "[KO]" RESET "\n");
-	printf("strlen    [%d] : errno > %d\n", ret[0], err[0]);
-	printf("ft_strlen [%d] : errno > %d\n\n", ret[1], err[1]);
+	printf("strlen    : return  > %d\n", ret[0]);
+	printf("ft_strlen : return  > %d\n\n", ret[1]);
 }
 
 void		strlen_tests(int *result)

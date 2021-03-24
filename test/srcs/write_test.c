@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 10:56:18 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/22 23:00:10 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/25 03:13:49 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static void		write_test(char *str, int *result)
 	}
 	else
 		printf("" RED "[KO]" RESET "\n");
-	printf("write    [%d] : %s\n", ret[0], buf);
-	printf("ft_write [%d] : %s\n\n", ret[1], ft_buf);
+	printf("write    : return > %d\n           output > %s\n", ret[0], buf);
+	printf("ft_write : return > %d\n           output > %s\n\n", ret[1], ft_buf);
 	close(fd[0]);
 	close(fd[1]);
 }
@@ -66,8 +66,8 @@ static void		write_test_err(int fd, char *str, int len, int *result)
 	}
 	else
 		printf("" RED "[KO]" RESET "\n");
-	printf("write    [%d] : errno > %d\n", ret[0], err[0]);
-	printf("ft_write [%d] : errno > %d\n\n", ret[1], err[1]);
+	printf("write    : return > %d\n           errno  > %d\n", ret[0], err[0]);
+	printf("ft_write : return > %d\n           errno  > %d\n\n", ret[1], err[1]);
 }
 
 void		write_tests(int *result)
