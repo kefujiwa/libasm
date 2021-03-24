@@ -17,13 +17,23 @@ global _ft_strlen
 
 section .text
 _ft_strlen:
-	mov		rax, 0					; initialize counter to 0
+	push	rbp						; push rbp (base pointer) onto the stack
+	mov		rbp, rsp				; copy rsp (stack pointer) to rbp
+	mov		qword [rbp - 8], rdi	; copy rdi (s) onto the stack
+	mov		qword [rbp - 16], 0		; copy 0 (counter) onto the stack
 
 _loop:
-	cmp		byte [rdi + rax], 0		; check if value of ptr [rdi + rax] is null character
+	mov		rax, qword [rbp - 8]	; copy s to rax
+	mov		rcx, qword [rbp - 16]	; copy counter to rcx
+	cmp		byte [rax + rcx], 0		; if (s[i] == 0)
 	je		_return					; jump to _return if ZF == 1
-	inc		rax						; increment counter
-	jne		_loop					; jump to _loop if ZF == 0
+
+	mov		rax, qword [rbp - 16]	; copy counter to rax
+	inc		rax
+	mov		qword [rbp - 16], rax	; copy counter onto the stack
+	jmp		_loop
 
 _return:
+	mov		rax, qword [rbp - 16]	; return counter
+	pop		rbp
 	ret
