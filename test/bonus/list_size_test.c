@@ -6,7 +6,7 @@
 /*   By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 16:36:27 by kefujiwa          #+#    #+#             */
-/*   Updated: 2021/03/22 22:55:12 by kefujiwa         ###   ########.fr       */
+/*   Updated: 2021/03/25 20:32:20 by kefujiwa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,18 @@ static int	list_size_test(int size, int *result)
 	int		tmp;
 	int		ret[2];
 
+	printf("-----list_size(" YELLOW "%d" RESET ")-----\n", size);
 	result[0] += 1;
 	list = NULL;
 	tmp = size;
 	while (tmp--)
 		list_add_back(&list, list_new(strdup("42")));
+	printf("LIST>>>\n" YELLOW "");
+	print_list(list);
+	printf("" RESET "\n\nAFTER>>>\n");
 	ret[0] = list_size(list);
 	ret[1] = ft_list_size(list);
 	list_clear(&list, free);
-	printf("-----list_size(" YELLOW "%d" RESET ")-----\n", size);
 	if (ret[0] == ret[1])
 	{
 		printf("" GREEN "[OK] " RESET "\n");
