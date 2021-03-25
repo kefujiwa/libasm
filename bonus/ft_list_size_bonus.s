@@ -17,14 +17,25 @@ global _ft_list_size
 
 section .text
 _ft_list_size:
-	mov		rax, 0				; initialize counter to 0
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	mov		qword [rbp - 8], rdi	; copy rdi (begin_list) on the stack
+	mov		dword [rbp - 12], 0		; cnt = 0
 
-_loop:
-	cmp		rdi, 0				; if (lst == NULL)
-	je		_return				; jump to _return if ZF == 1
-	mov		rdi, [rdi + 8]		; lst = lst->next : sizeof(void*) is 8 in my platform
-	inc		rax					; rax++
-	jmp		_loop
+loop:
+	cmp		qword [rbp - 8], 0		; if (begin_list == NULL)
+	je		return						; jump to return if ZF == 1
 
-_return:
+	mov		eax, dword [rbp - 12]
+	inc		eax							; cnt++
+	mov		dword [rbp - 12], eax
+
+	mov		rcx, qword [rbp - 8]
+	mov		rcx, qword [rcx + 8]
+	mov		qword [rbp - 8], rcx	; begin_list = begin_list->next
+	jmp		loop
+
+return:
+	mov		eax, dword [rbp - 12]	; return cnt
+	pop		rbp
 	ret
