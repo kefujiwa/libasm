@@ -18,169 +18,226 @@ extern _ft_strlen
 
 section .text
 _ft_atoi_base:
-	push	rdi						; push rdi (str) onto the stack
-	push	rsi						; push rsi (base) onto the stack
-	mov		rdi, rsi				; copy rsi (base) to rdi before calling  __is_valid_base
-	call	__is_valid_base
-	pop		rsi						; pop the last stack element off and store it to rsi
-	pop		rdi						; pop the last stack element off and store it to rdi
-	cmp		rax, 0					; if (is_valid_base(base) == 0)
-	je		_return					; jump to _return if ZF == 1
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	sub		rsp, 48						; secure 48 bytes spaces on the stack for this function
+	mov		qword [rbp - 16], rdi		; copy rdi (str) on the stack
+	mov		qword [rbp - 24], rsi		; copy rsi (base) on the stack
+	mov		dword [rbp - 28], 0			; total = 0
+	mov		dword [rbp - 32], 1			; sign = 1
+
+	mov		rdi, qword [rbp - 24]		; copy base to rdi (first parameter) before is_valid_base
+	call	_is_valid_base
+	cmp		eax, 0						; if (is_valid_base == 0)
+	je		.return						; jump to .return if ZF == 1
 
 .loop:
-	push	rdi						; push rdi (str) onto the stack
-	push	rsi						; push rsi (base) onto the stack
-	call	__is_space
-	pop		rsi						; pop the last stack element off and store it to rsi
-	pop		rdi						; pop the last stack element off and store it to rdi
-	cmp		rax, 1					; if (is_space(str) == 1)
-	jne		_check_sign				; jump to _check_sign if ZF == 0
-	inc		rdi						; str++
+	mov		rax, qword [rbp - 16]
+	movsx	edi, byte [rax]				; copy *str to edi (first parameter), extend 8bit to 32bit register (sign-extension)
+	call	_is_space
+	cmp		eax, 0						; if (is_space == 0)
+	je		.check_sign					; jump to .check_sign if ZF == 1
+
+	mov		rax, qword [rbp - 16]
+	inc		rax							; str++
+	mov		qword [rbp - 16], rax
 	jmp		.loop
 
-_check_sign:
-	mov		r8, 1					; initialize r8 (sign) to 1
-	mov		rax, 0					; initialize rax to 0
+.check_sign:
+	mov		rax, qword [rbp - 16]
+	movsx	ecx, byte [rax]				; copy *str to ecx, extend 8bit to 32bit register (sign-extension)
+	cmp		ecx, 45						; if (*str == '-')
+	mov		dl, 1
+	je		.if_minus					; jump to .if_minus if ZF == 1
+	mov		rax, qword [rbp - 16]		; copy str to rax
+	movsx	ecx, byte [rax]				; copy *str to ecx, extend 8bit to 32bit register (sign-extension)
+	cmp		ecx, 43						; if (*str == '+')
+	sete	dl							; set 1 to dl if ZF == 1, otherwise set 0
 
-.loop:
-	mov		al, byte [rdi]			; copy value of *str to al (8bit register)
-	cmp		al, 43					; if (*str == '+')
-	je		.is_sign				; jump to .is_sign if ZF == 1
-	cmp		al, 45					; if (*str == '-')
-	jne		_calculate				; jump to _calculate if ZF == 0
-	imul	r8, -1					; sign *= -1
+.if_minus:
+	cmp		dl, 1						; if dl == 1
+	jne		.calculate					; jump to .calculate if ZF == 0
+	mov		rax, qword [rbp - 16]		; copy str to rax
+	movsx	ecx, byte [rax]				; copy *str to ecx, extend 8bit to 32bit register (sign-extension)
+	cmp		ecx, 45						; if (*str == '-')
+	jne		.next						; jump to .next if ZF == 0
+	imul	eax, dword [rbp - 32], -1	; sign *= -1
+	mov		dword [rbp - 32], eax
 
-.is_sign:
-	inc		rdi						; str++
-	jmp		.loop
+.next:
+	mov		rax, qword [rbp - 16]
+	inc		rax							; str++
+	mov		qword [rbp - 16], rax
+	jmp		.check_sign
 
-_calculate:
-	mov		r9, 0					; initialize r9 (total) to 0
-
-	push	rdi						; push rdi (str) onto the stack
-	push	rsi						; push rsi (base) onto the stack
-	push	r8						; push r8 (sign) onto the stack
-	push	r9						; push r9 (total) onto the stack
-	mov		rdi, rsi				; copy rsi (base) to rdi (first parameter) before _ft_strlen
+.calculate:
+	mov		rax, qword [rbp - 16]
+	mov		cl, byte [rax]				; copy *str to cl
+	mov		rsi, qword [rbp - 24]		; copy base to rsi (second parameter) before get_value
+	movsx	edi, cl						; copy *str to edi (first parameter) before get_value
+	call	_get_value					; val = get_value(*str, base)
+	mov		dword [rbp - 36], eax		; copy val on the stack
+	cmp		eax, 0						; if (val < 0)
+	jl		.result						; jump to .result if (SF ! OF)
+	mov		rdi, qword [rbp - 24]		; copy base to rdi (first parameter) before ft_strlen
 	call	_ft_strlen
-	pop		r9						; pop the last stack element off and store it to r9
-	pop		r8						; pop the last stack element off and store it to r8
-	pop		rsi						; pop the last stack element off and store it to rsi
-	pop		rdi						; pop the last stack element off and store it to rdi
-	mov		r10, rax				; copy rax (length) to r10
-
-.loop:
-	push	rdi						; push rdi (str) onto the stack
-	push	rsi						; push rsi (base) onto the stack
-	push	r8						; push r8 (sign) onto the stack
-	push	r9						; push r9 (total) onto the stack
-	call	__get_value
-	pop		r9						; pop the last stack element off and store it to r9
-	pop		r8						; pop the last stack element off and store it to r8
-	pop		rsi						; pop the last stack element off and store it to rsi
-	pop		rdi						; pop the last stack element off and store it to rdi
-	cmp		rax, 0					; check if rax (return value of __get_value) is 0
-	jl		.result					; jump to .result if (SF ! OF)
-	imul	r9, r10					; total *= length
-	add		r9, rax					; total += rax (return value of __get_value)
-	inc		rdi						; str++
-	jmp		.loop
+	movsx	rcx, dword [rbp - 28]		; copy total to rcx, extend 32bit to 64bit register (sign-extension)
+	imul	rcx, rax					; total *= ft_strlen(base)
+	movsx	rax, dword [rbp - 36]
+	add		rcx, rax					; total += val
+	mov		dword [rbp - 28], ecx		; copy total (32bit) on the stack
+	mov		rax, qword [rbp - 16]
+	inc		rax							; str++
+	mov		qword [rbp - 16], rax
+	jmp		.calculate
 
 .result:
-	imul	r9, r8					; total *= sign
-	mov		rax, r9					; return total
+	mov		eax, dword [rbp - 28]		; copy total to eax
+	imul	eax, dword [rbp - 32]		; return (total * sign)
 
-_return:
+.return:
+	add		rsp, 48						; release 48 bytes spaces on the stack
+	pop		rbp
 	ret
 
+_is_valid_base:
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	sub		rsp, 32						; secure 48 bytes spaces on the stack for this function
+	mov		qword [rbp - 16], rdi		; copy rdi (base) on the stack
+	cmp		qword [rbp - 16], 0			; if (base == NULL)
+	je		.invalid					; jump to .invalid if ZF == 1
+	mov		rax, qword [rbp - 16]
+	cmp		byte [rax], 0				; if (*base == 0)
+	je		.invalid					; jump to .invalid if ZF == 1
+	mov		rax, qword [rbp - 16]
+	cmp		byte [rax + 1], 0			; if (*(base + 1) == 0)
+	je		.invalid					; jump to .invalid if ZF == 1
 
-__is_valid_base:
-	mov		r8, 0					; initialize r8 to 0
+.check_base:
+	mov		rax, qword [rbp - 16]
+	cmp		byte [rax], 0				; if (*base == 0)
+	je		.valid						; jump to .valid if ZF == 1
 
-	cmp		byte [rdi], 0			; if (*str == '\0')
-	je		.invalid				; jump to .invalid if ZF == 1
-	cmp		byte [rdi + 1], 0		; if (*(str + 1) == '\0')
-	je		.invalid				; jump to .invalid if ZF == 1
+	mov		rax, qword [rbp - 16]
+	movsx	ecx, byte [rax]
+	cmp		ecx, 45						; if (*base == '-')
+	je		.invalid					; jump to .invalid if ZF == 1
 
-.loop:
-	mov		r8b, byte [rdi]			; copy *str to r8b
-	cmp		r8b, 0					; if (*str == '\0')
-	je		.valid					; jump to .valid if ZF == 1
-	cmp		r8b, 43					; if (*str == '+')
-	je		.invalid				; jump to .invalid if ZF == 1
-	cmp		r8b, 45					; if (*str == '-')
-	je		.invalid				; jump to .invalid if ZF == 1
+	mov		rax, qword [rbp - 16]
+	movsx	ecx, byte [rax]
+	cmp		ecx, 43						; if (*base == '+')
+	je		.invalid					; jump to .invalid if ZF == 1
 
-	push	rdi						; push rdi (str) onto the stack
-	call	__is_space
-	pop		rdi						; pop the last stack element off and store it to rdi
-	cmp		rax, 1					; if (is_space(*str) == 1)
-	je		.invalid				; jump to .invalid if ZF == 1
-
-	lea		rdx, [rdi + 1]			; copy pointer address of [str + 1] to rdx
-
-.loop_s:
-	cmp		byte [rdx], 0			; if (*rdx == '\0')
-	je		.end_loop_s				; jump to .end_loop_s if ZF == 1
-	cmp		al, byte [rdx]			; if (*str == *rdx)
-	je		.invalid				; jump to .invalid if ZF == 1
-	inc		rdx						; rdx++
-	jmp		.loop_s
-
-.end_loop_s:
-	inc		rdi						; str++
-	jmp		.loop
+	mov		rax, qword [rbp - 16]
+	movsx	edi, byte [rax]
+	call	_is_space
+	cmp		eax, 0						; if (is_space(*base) == 0)
+	je		.check_duplicate			; jump to .check_duplicate if ZF == 1
 
 .invalid:
-	mov		rax, 0					; if .invalid return 0
-	ret
+	mov		dword [rbp - 4], 0			; return 0
+	jmp		.return
 
-.valid:
-	mov		rax, 1					; if .valid return 1
-	ret
-
-
-__is_space:
-	mov		rax, 1					; initialize rax (return value) to 1
-	mov		rdx, 0					; initialize rdx to 0
-	mov		dl, byte [rdi]			; copy *str to dl (8byte register of rdx)
-
-	cmp		dl, 9					; if (*str == '\t')
-	je		.return					; jump to .return if ZF == 1
-	cmp		dl, 10					; if (*str == '\n')
-	je		.return					; jump to .return if ZF == 1
-	cmp		dl, 11					; if (*str == '\v')
-	je		.return					; jump to .return if ZF == 1
-	cmp		dl, 12					; if (*str == '\f')
-	je		.return					; jump to .return if ZF == 1
-	cmp		dl, 13					; if (*str == '\r')
-	je		.return					; jump to .return if ZF == 1
-	cmp		dl, 32					; if (*str == ' ')
-	je		.return					; jump to .return if ZF == 1
-
-	mov		rax, 0					; return 0
-
-.return:
-	ret
-
-
-__get_value:
-	mov		rax, 0					; initialize counter to 0
-	mov		r8, 0					; initialize r8 to 0
-	mov		r9, 0					; initialize r9 to 0
-	mov		r8b, byte [rdi]			; copy *str to r8b (8byte register of r8)
+.check_duplicate:
+	mov		rax, qword [rbp - 16]
+	inc		rax
+	mov		qword [rbp - 24], rax		; tmp = base + 1
 
 .loop:
-	mov		r9b, byte [rsi + rax]	; copy base[rax] to r9b (8byte register of r9)
-	cmp		r9b, 0					; if (base[rax] == '\0')
-	je		.error					; jump to .error if ZF == 1
-	cmp		r9b, r8b				; if (*str == base[rax])
-	je		.return					; jump to .return if ZF == 0
-	inc		rax						; rax++
+	mov		rax, qword [rbp - 24]
+	cmp		byte [rax], 0				; if (*tmp == 0)
+	je		.next						; jump to .next if ZF == 1
+	mov		rax, qword [rbp - 16]
+	movsx	ecx, byte [rax]
+	mov		rax, qword [rbp - 24]
+	movsx	edx, byte [rax]
+	cmp		ecx, edx					; if (*base == *tmp)
+	je		.invalid					; jump to .invalid if ZF == 1
+	mov		rax, qword [rbp - 24]
+	inc		rax							; tmp++
+	mov		qword [rbp - 24], rax
 	jmp		.loop
 
-.error:
-	mov		rax, -1					; if .error return -1
+.next:
+	mov		rax, qword [rbp - 16]
+	inc		rax							; base++
+	mov		qword [rbp - 16], rax
+	jmp		.check_base
+
+.valid:
+	mov		dword [rbp - 4], 1			; return 1
 
 .return:
-	ret								; return value of counter
+	mov		eax, dword [rbp - 4]
+	add		rsp, 32						; release 32 bytes spaces on the stack
+	pop		rbp
+	ret
+
+_is_space:
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	mov		byte [rbp - 1], dil			; copy dil (char c) on the stack
+	mov		cl, 1
+	mov		byte [rbp - 2], cl			; initialize return value to 1
+	movsx	eax, byte [rbp - 1]
+	cmp		eax, 9						; if (c == '\t')
+	je		.return						; jump to .return if ZF == 1
+	movsx	eax, byte [rbp - 1]
+	cmp		eax, 10						; if (c == '\n')
+	je		.return						; jump to .return if ZF == 1
+	movsx	eax, byte [rbp - 1]
+	cmp		eax, 11						; if (c == '\v')
+	je		.return						; jump to .return if ZF == 1
+	movsx	eax, byte [rbp - 1]
+	cmp		eax, 12						; if (c == '\f')
+	je		.return						; jump to .return if ZF == 1
+	movsx	eax, byte [rbp - 1]
+	cmp		eax, 13						; if (c == '\r')
+	je		.return						; jump to .return if ZF == 1
+	movsx	eax, byte [rbp - 1]
+	cmp		eax, 32						; if (c == ' ')
+	sete	cl							; set 1 to cl if ZF == 1, otherwise set 0
+	mov		byte [rbp - 2], cl
+
+.return:
+	mov		al, byte [rbp - 2]
+	movzx	eax, al						; extend 8bit to 32bit register (zero-extension)
+	pop		rbp
+	ret
+
+_get_value:
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	mov		byte [rbp - 5], dil			; copy dil (char c) on the stack
+	mov		qword [rbp - 16], rsi		; copy rsi (base) on the stack
+	mov		qword [rbp - 24], rsi		; copy rsi (base) on the stack to save head ptr of base
+
+.loop:
+	mov		rax, qword [rbp - 16]
+	cmp		byte [rax], 0				; if (*base == 0)
+	je		.failure					; jump to .failure if ZF == 1
+	mov		rax, qword [rbp - 16]
+	movsx	ecx, byte [rax]
+	movsx	edx, byte [rbp - 5]
+	cmp		ecx, edx					; if (*base == c)
+	jne		.next						; jump to .next if ZF == 0
+	mov		rax, qword [rbp - 16]
+	mov		rcx, qword [rbp - 24]
+	sub		rax, rcx
+	mov		dword [rbp - 4], eax		; return (base - head)
+	jmp		.return
+
+.next:
+	mov		rax, qword [rbp - 16]
+	inc		rax							; base++
+	mov		qword [rbp - 16], rax
+	jmp		.loop
+
+.failure:
+	mov		dword [rbp - 4], -1			; return -1
+
+.return:
+	mov		eax, dword [rbp - 4]
+	pop		rbp
+	ret
