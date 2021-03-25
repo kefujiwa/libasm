@@ -17,58 +17,162 @@ global _ft_list_sort
 
 section .text
 _ft_list_sort:
-	cmp		rdi, 0				; if (begin_list == NULL)
-	je		_return				; jump to _return if ZF == 1
-	cmp		qword [rdi], 0		; if (*begin_list == NULL)
-	je		_return				; jump to _return if ZF == 1
-	cmp		rsi, 0				; if (cmp == NULL)
-	je		_return				; jump to _return if ZF == 1
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	sub		rsp, 16						; secure 16 bytes spaces on the stack for this function
+	mov		qword [rbp - 8], rdi		; copy rdi (begin_list) on the stack
+	mov		qword [rbp - 16], rsi		; copy rsi (cmp) on the stack
+	cmp		qword [rbp - 8], 0			; if (begin_list == NULL)
+	je		.return						; jump to .return if ZF == 1
+	mov		rax, qword [rbp - 8]
+	cmp		qword [rax], 0				; if (*begin_list == NULL)
+	je		.return						; jump to .return if ZF == 1
+	mov		rax, qword [rbp - 8]
+	mov		rdi, qword [rax]			; copy *begin_list to rdi (first parameter)
+	mov		rsi, qword [rbp - 16]		; copy cmp to rsi (second parameter)
+	call	_merge_sort
+	mov		rcx, qword [rbp - 8]
+	mov		qword [rcx], rax			; *begin_list = merge_sort(*begin_list, cmp)
 
-	mov		r8, 0				; initialize r8 (flag) to 0
-	mov		r9, [rdi]			; copy *begin_list to r9 (head)
-	mov		rdi, [rdi]			; copy *begin_list to rdi (list)
+.return:
+	add		rsp, 16						; release 16 bytes spaces on the stack
+	pop		rbp
+	ret
 
-_loop:
-	mov		r10, [rdi + 8]		; copy list->next to r10
-	cmp		r10, 0				; if (list->next == NULL)
-	je		_loop_if			; jumpt to _loop_if if ZF == 1
+_merge_sort:
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	sub		rsp, 64						; secure 64 bytes spaces on the stack for this function
+	mov		qword [rbp - 16], rdi		; copy rdi (list) on the stack
+	mov		qword [rbp - 24], rsi		; copy rsi (cmp) on the stack
+	cmp		qword [rbp - 16], 0			; if (list == NULL)
+	je		.end						; jump to .end if ZF == 1
+	mov		rax, qword [rbp - 16]
+	cmp		qword [rax + 8], 0
+	jne		.init
 
-	push	rdi					; push rdi (list) onto the stack
-	push	rsi					; push rsi (cmp) onto the stack
-	push	r8					; push r8 (flag) onto the stack
-	push	r9					; push r9 (head) onto the stack
-	push	r10					; push r10 (list->next) onto the stack
-	mov		rdx, rsi			; copy rsi (cmp) to rdx
-	mov		rsi, [r10]			; copy list->next->data to rsi (second parameter)
-	mov		rdi, [rdi]			; copy list->data to rdi (first parameter)
-	call	rdx					; call cmp
-	pop		r10					; pop the last stack element off and store it to r10
-	pop		r9					; pop the last stack element off and store it to r9
-	pop		r8					; pop the last stack element off and store it to r8
-	pop		rsi					; pop the last stack element off and store it to rsi
-	pop		rdi					; pop the last stack element off and store it to rdi
+.end:
+	mov		rax, qword [rbp - 16]
+	mov		qword [rbp - 8], rax		; return list
+	jmp		.return
 
-	cmp		eax, 0				; if (cmp(data, next->data) > 0); use eax (32bit register) because type int is 4byte
-	jg		_swap				; jumpt to _swap if ZF == 0 && SF == OF
+.init:
+	mov		rax, qword [rbp - 16]
+	mov		qword [rbp - 32], rax		; a = list
+	mov		rax, qword [rbp - 16]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 40], rax		; b = lst->next
+	cmp		qword [rbp - 40], 0			; if (b == NULL)
+	je 		.loop						; jump to .loop if ZF == 1
+	mov		rax, qword [rbp - 40]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 40], rax		; b = b->next
 
-_loop_pre:
-	mov		rdi, r10			; list = list->next
-	jmp		_loop
+.loop:
+	cmp		qword [rbp - 40], 0			; if (b == NULL)
+	je		.recursive					; jump to .recursive if ZF == 1
+	mov		rax, qword [rbp - 32]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 32], rax		; a = a->next
+	mov		rax, qword [rbp - 40]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 40], rax		; b = b->next
+	cmp		qword [rbp - 40], 0			; if (b == NULL)
+	je		.recursive					; jump to .recursive if ZF == 1
+	mov		rax, qword [rbp - 40]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 40], rax		; b = b->next
 
-_swap:
-	mov		r8, 1				; flag == 1
-	mov		rdx, [r10]			; copy list->next->data to rdx
-	mov		rcx, [rdi]			; copy list->data to rcx
-	mov		[rdi], rdx			; copy rdx to list->data
-	mov		[r10], rcx			; copy rcx to list->next->data
-	jmp		_loop_pre
+.recursive:
+	mov		rax, qword [rbp - 32]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 48], rax		; x = a->next
+	mov		rax, qword [rbp - 32]
+	mov		qword [rax + 8], 0			; a->next = NULL
+	mov		rdi, qword [rbp - 16]		; copy list to rdi (first parameter) before merge_sort
+	mov		rsi, qword [rbp - 24]		; copy cmp to rsi (second parameter) before merge_sort
+	call	_merge_sort
+	mov		qword [rbp - 56], rax		; copy result of merge_sort on the stack
+	mov		rdi, qword [rbp - 48]		; copy x to rdi (first parameter) before merge_sort
+	mov		rsi, qword [rbp - 24]		; copy cmp to rsi (second parameter) before merge_sort
+	call	_merge_sort
+	mov		rdx, qword [rbp - 24]		; copy cmp to rdx (third paramter) before merge
+	mov		rdi, qword [rbp - 56]		; copy result of first merge_sort to rdi (first parameter)
+	mov		rsi, rax					; copy result of second merge_sort to rsi (second parameter)
+	call	_merge
+	mov		qword [rbp - 8], rax		; return result of merge
 
-_loop_if:
-	cmp		r8, 0				; if (flag == 0)
-	je		_return				; jump to _return if ZF == 1
-	mov		r8, 0				; initialize flag to 0
-	mov		rdi, r9				; list = *begin_list
-	jmp		_loop
+.return:
+	mov		rax, qword [rbp - 8]
+	add		rsp, 64						; release 64 bytes spaces on the stack
+	pop		rbp
+	ret
 
-_return:
+_merge:
+	push	rbp							; push rbp (base pointer) onto the stack
+	mov		rbp, rsp					; copy rsp (stack pointer) to rbp
+	sub		rsp, 64						; secure 64 bytes spaces on the stack for this function
+	mov		qword [rbp - 8], rdi		; copy rdi (a) on the stack
+	mov		qword [rbp - 16], rsi		; copy rsi (b) on the stack
+	mov		qword [rbp - 24], rdx		; copy rdx (cmp) on the stack
+	lea		rax, [rbp - 40]				; copy &result to rax
+	mov		qword [rbp - 48], rax		; x = &result
+
+.loop:
+	xor		eax, eax					; initialize eax to 0
+	cmp		qword [rbp - 8], 0			; if (a == NULL)
+	je		.next						; jump to loop_if if ZF == 1
+	cmp		qword [rbp - 16], 0			; if (b == NULL)
+	je		.next						; jump to loop_if if ZF == 1
+
+.compare:
+	mov		rax, qword [rbp - 24]		; copy cmp to rax
+	mov		rcx, qword [rbp - 8]
+	mov		rdi, qword [rcx]			; copy a->data to rdi (first parameter)
+	mov		rcx, qword [rbp - 16]
+	mov		rsi, qword [rcx]			; copy b->data to rsi (second paramter)
+	call	rax							; cmp(a->data, b->data)
+	cmp		eax, 0						; cmp(a->data, b->data) <= 0
+	jle		.lower						; jump to .lower if (ZF = 1 | SF ! OF)
+
+	mov		rax, qword [rbp - 16]
+	mov		rcx, qword [rbp - 48]
+	mov		qword [rcx + 8], rax		; x->next = b
+	mov		rax, qword [rbp - 48]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 48], rax		; x = x->next
+	mov		rax, qword [rbp - 16]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 16], rax		; b = b->next
+	jmp		.loop
+
+.lower:
+	mov		rax, qword [rbp - 8]
+	mov		rcx, qword [rbp - 48]
+	mov		qword [rcx + 8], rax		; x->next = a
+	mov		rax, qword [rbp - 48]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 48], rax		; x = x->next
+	mov		rax, qword [rbp - 8]
+	mov		rax, qword [rax + 8]
+	mov		qword [rbp - 8], rax		; a = a->next
+	jmp		.loop
+
+.next:
+	cmp		qword [rbp - 8], 0			; if (a == NULL)
+	je		.nextb						; jump to .nextb if ZF == 0
+	mov		rax, qword [rbp - 8]		; copy a to rax
+	mov		rcx, qword [rbp - 48]		; copy x to rcx
+	mov		qword [rcx + 8], rax		; x->next = a
+	jmp		.return
+
+.nextb:
+	mov		rax, qword [rbp - 16]		; copy b to rax
+	mov		rcx, qword [rbp - 48]		; copy x to rcx
+	mov		qword [rcx + 8], rax		; x->next = b
+
+.return:
+	mov		rax, qword [rbp - 32]		; return (result.next)
+	add		rsp, 64						; release 64 bytes spaces on the stack
+	pop		rbp
 	ret
