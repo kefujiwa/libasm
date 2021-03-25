@@ -1,5 +1,5 @@
 # libasm
-libasm is a project to rewrite following functions in assembly language.
+libasm is a project to rewrite following functions in assembly language (64 bits ASM).
 
 | name | content |
 | -- | -- |
@@ -19,6 +19,9 @@ libasm is a project to rewrite following functions in assembly language.
 ```Bash
 git clone https://github.com/kefujiwa/libasm.git
 cd libasm
+
+# Make sure both nasm and gcc are installed.
+# Compliation Flags are based on MacOS (nasm -fmacho64)
 
 # create library `libasm.a`
 make all
