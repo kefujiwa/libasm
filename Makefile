@@ -6,7 +6,7 @@
 #    By: kefujiwa <kefujiwa@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/19 00:58:10 by kefujiwa          #+#    #+#              #
-#    Updated: 2021/03/23 02:05:50 by kefujiwa         ###   ########.fr        #
+#    Updated: 2021/06/11 17:41:34 by kefujiwa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,24 +129,21 @@ test:				re
 						@$(RM) $(TEST_DIR)*.txt
 
 # Bonus Rules #
-bonus:				re $(OBJSb)
+bonus:				re $(OBJSb_DIR) $(OBJSb)
 						@$(AR) $(NAME) $(OBJSb)
 						@echo "\n\n$(_GREEN)Bonus objects are included to '$(NAME)'.\n$(_RESET)"
 
-testb:			bonus
+testb:				bonus
 						@$(CC) $(CFLAGS) -I $(HEADER_DIR) $(NAME) $(T_SRCSb) -o $(EXEC)
 						@./$(EXEC)
 						@$(RM) $(TEST_DIR)*.txts
 
 # Variable Rules #
-$(NAME):			$(OBJS)
+$(NAME):			$(OBJS_DIR) $(OBJS)
 						@$(AR) $(NAME) $(OBJS)
 						@echo "\n\n$(_GREEN)Library '$(NAME)' compiled.\n$(_RESET)"
 
 # Compiled Source Files #
-$(OBJS):			$(OBJS_DIR)
-$(OBJSb):			$(OBJSb_DIR)
-
 $(OBJS_DIR)%.o:		$(SRCS_DIR)%.s
 						@printf "$(_YELLOW)Generating libasm objects... %-33.33s\r$(_RESET)" $@
 						@$(NA) $(NFLAGS) -I $(HEADER_DIR) -s $< -o $@
